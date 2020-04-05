@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <search-area />
+    <div>这是个人新闻页</div>
     <v-bottom-navigation
       v-model="bottomNav"
       class="nav"
@@ -27,16 +27,13 @@
 </template>
 
 <script>
-import SearchArea from '../components/search/search'
+
 export default {
-  name: 'Home',
+  name: 'news',
   data () {
     return {
-      bottomNav: 'search'
+      bottomNav: 'news'
     }
-  },
-  components: {
-    SearchArea
   },
   watch: {
     bottomNav (val, oldVal) {
