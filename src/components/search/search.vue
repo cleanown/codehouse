@@ -20,7 +20,7 @@
       class="searchlist"
       >
       <v-list-item
-        v-for="(item, index) in itemscopy"
+        v-for="(item, index) in items"
         :key="index"
       >
         <v-list-item-icon>
@@ -28,11 +28,11 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title v-text="item.title"></v-list-item-title>
+          <v-list-item-title v-text="item.companyName"></v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-avatar>
-          <v-list-item-title v-text="item.avatar"></v-list-item-title>
+          <v-list-item-title v-text="item.city"></v-list-item-title>
         </v-list-item-avatar>
       </v-list-item>
     </v-list>
@@ -45,62 +45,29 @@ export default {
   data () {
     return {
       searchvalue: '',
-      items: [
-        { title: 'Jason Oner', avatar: '江西' },
-        { title: 'Travis Howard', avatar: '广州' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Ali Connors', avatar: '深圳' },
-        { title: 'Cindy Baker', avatar: '北京' }
-      ],
-      itemscopy: []
+      items: []
     }
   },
   watch: {
     searchvalue (val, oldVal) {
-      if (val) {
-        this.itemscopy = this.items.filter((obj) => {
-          return obj.title.indexOf(val) !== -1
-        })
-      } else {
-        this.itemscopy = this.items
-      }
+      this.searchItem()
     }
-  },
-  mounted () {
-    this.itemscopy = this.items
   },
   methods: {
     handleSearchClick () {
       this.items = this.items.filter((obj) => {
         return obj.title.indexOf(this.searchvalue) !== -1
+      })
+    },
+    searchItem () {
+      const url = 'http://192.168.2.168:3000/search/companylist'
+      this.$http.get(url, {
+        params: {
+          key: this.searchvalue
+        }
+      }).then((res) => {
+        this.items = res.data.data
+        console.log(this.items)
       })
     }
   }
