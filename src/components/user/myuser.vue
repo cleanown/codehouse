@@ -13,7 +13,7 @@
       <div class="box">
         <div class="boxitem">
           <div class="boxitem-num">424</div>
-          <div class="boxitem-desc">点赞</div>
+          <div class="boxitem-desc">获赞</div>
         </div>|
         <div class="boxitem">
           <div class="boxitem-num">22</div>
