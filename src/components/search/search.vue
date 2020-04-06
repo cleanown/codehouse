@@ -60,7 +60,7 @@ export default {
       })
     },
     searchItem () {
-      const url = 'http://192.168.2.168:3000/search/companylist'
+      const url = 'http://47.101.208.5:3000/search/companylist'
       this.$http.get(url, {
         params: {
           key: this.searchvalue
