@@ -22,6 +22,7 @@
       <v-list-item
         v-for="(item, index) in items"
         :key="index"
+        style="border-bottom: 1px solid #eee"
       >
         <v-list-item-icon>
           {{index + 1}}
@@ -60,7 +61,7 @@ export default {
       })
     },
     searchItem () {
-      const url = 'http://47.101.208.5:3000/search/companylist'
+      const url = 'http://cleanown.cn:3000/search/companylist'
       this.$http.get(url, {
         params: {
           key: this.searchvalue

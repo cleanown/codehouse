@@ -6,7 +6,7 @@
       class="nav"
       grow
       app
-      color="blue"
+      color="deep-purple"
     >
       <v-btn value="search">
         <span>搜索</span>
