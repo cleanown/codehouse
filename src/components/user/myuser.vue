@@ -69,7 +69,7 @@ export default {
 <style lang="scss" scoped>
 .home{
   font-family: 华文宋体;
-  margin-top: 48px;
+  margin-top: 56px;
   margin-bottom: 56px;
   .navtop{
     background: rgb(225, 239, 252);

@@ -119,6 +119,7 @@ export default {
 .header{
   position: fixed;
   z-index: 3;
+  opacity: 0.5;
 }
 .nav{
   align-items: center;
