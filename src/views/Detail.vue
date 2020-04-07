@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-toolbar class="header">
-      <v-btn icon>
+      <v-btn icon @click="handleBackClick">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
       <v-toolbar-title>{{title}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click="handleHomeClick">
+      <v-btn icon @click="handleHomeClick" color="deep-purple">
         <v-icon>mdi-home</v-icon>
       </v-btn>
     </v-toolbar>
@@ -37,14 +37,14 @@
     <div></div>
 
     <div class="comment" v-show="messageshow">
-      <v-btn
+      <!-- <v-btn
         icon
         class="comment-collect"
         @click="handleCommentClick"
         :style="styleObj"
         >
         <v-icon>mdi-heart</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-text-field
         v-model="message"
         solo
@@ -52,7 +52,13 @@
         hide-details
         clearable
       ></v-text-field>
-      <v-btn color="#9C27B0" style="color: #fff"  class="comment-message">评论</v-btn>
+      <v-btn
+        color="deep-purple darken-2"
+        style="color: #fff"
+        class="comment-message"
+        >
+        评论
+      </v-btn>
     </div>
 
   </div>
@@ -77,6 +83,9 @@ export default {
     }
   },
   methods: {
+    handleBackClick () {
+      this.$router.go(-1)
+    },
     handleHomeClick () {
       this.$router.push('/')
     },
@@ -125,7 +134,7 @@ export default {
   display: flex;
   width: 100%;
   height: 56px;
-  background: #9575CD;
+  background: #B39DDB;
   bottom: 0;
   align-items: center;
   padding: 0 10px;
