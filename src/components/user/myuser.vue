@@ -5,7 +5,7 @@
         <div class="head">
           <v-img class="head-img"
             src="https://cdn.vuetifyjs.com/images/john.png"
-            @click="this.login = !this.login"
+            @click="handleCheckClick"
             >
           </v-img>
         </div>
@@ -74,6 +74,9 @@ export default {
   methods: {
     handleLoginClick () {
       this.$router.push('/login')
+    },
+    handleCheckClick () {
+      this.login = !this.login
     }
   }
 }
