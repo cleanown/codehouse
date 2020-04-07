@@ -32,32 +32,58 @@
           </div>
         </div>
       </div>
+      <div class="opinion">
+        <v-btn
+          icon
+          class="tips"
+          @click="handleCommentClick"
+          :style="stylecomment"
+          >
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+        <div class="tips">
+          <v-btn
+            icon
+            @click="handleFabulousClick"
+            :style="styleFabulous"
+            >
+            <v-icon>mdi-thumb-up</v-icon>
+          </v-btn>
+          <div>{{num}}</div>
+        </div>
+        <div class="tips">
+          <v-btn
+          icon
+          >
+          <v-icon>mdi-chat</v-icon>
+        </v-btn>
+        <div>{{num}}</div>
+        </div>
+        <v-btn
+          icon
+          class="tips"
+          >
+          <v-icon>mdi-reply</v-icon>
+        </v-btn>
+      </div>
     </div>
 
-    <div></div>
-
     <div class="comment" v-show="messageshow">
-      <!-- <v-btn
-        icon
-        class="comment-collect"
-        @click="handleCommentClick"
-        :style="styleObj"
-        >
-        <v-icon>mdi-heart</v-icon>
-      </v-btn> -->
       <v-text-field
         v-model="message"
         solo
         dense
         hide-details
+        label="说点什么呗~"
         clearable
       ></v-text-field>
       <v-btn
+        rounded
         color="deep-purple darken-2"
         style="color: #fff"
         class="comment-message"
         >
-        评论
+        发送
       </v-btn>
     </div>
 
@@ -71,10 +97,14 @@ export default {
     return {
       title: '详情',
       messageshow: false,
-      styleObj: {
-        color: '#fff'
+      stylecomment: {
+        color: '#ccc'
       },
-      message: ''
+      styleFabulous: {
+        color: '#ccc'
+      },
+      message: '',
+      num: 5
     }
   },
   watch: {
@@ -90,7 +120,10 @@ export default {
       this.$router.push('/')
     },
     handleCommentClick () {
-      this.styleObj.color = this.styleObj.color === '#fff' ? 'red' : '#fff'
+      this.stylecomment.color = this.stylecomment.color === '#ccc' ? 'red' : '#ccc'
+    },
+    handleFabulousClick () {
+      this.styleFabulous.color = this.styleFabulous.color === '#ccc' ? 'red' : '#ccc'
     }
   }
 }
@@ -129,6 +162,19 @@ export default {
     }
   }
 }
+.opinion{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 56px;
+  color: #ccc;
+  align-items: center;
+  .tips{
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+  }
+}
 .comment{
   position: fixed;
   display: flex;
@@ -138,9 +184,6 @@ export default {
   bottom: 0;
   align-items: center;
   padding: 0 10px;
-  .comment-collect{
-    margin-right: 10px;
-  }
   // .comment-text{
   //   height: 56px;
   // }
