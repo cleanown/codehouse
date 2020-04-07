@@ -105,9 +105,8 @@ export default {
         font-weight: bolder;;
       }
       .nologin{
-        margin-top: 30px;
         font-size: 30px;
-        line-height: 30px;
+        line-height: 68px;
       }
     }
   }
