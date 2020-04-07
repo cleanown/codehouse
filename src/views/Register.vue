@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-toolbar>
-      <v-btn icon>
+      <v-btn icon @click="handleBackClick">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      <v-toolbar-title>登录</v-toolbar-title>
+      <v-toolbar-title @click="handleLoginClick">登录</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-update</v-icon>
@@ -26,7 +26,15 @@
 
 <script>
 export default {
-  name: 'register'
+  name: 'register',
+  methods: {
+    handleBackClick () {
+      this.$router.go(-1)
+    },
+    handleLoginClick () {
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 

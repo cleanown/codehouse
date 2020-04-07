@@ -102,7 +102,7 @@ export default {
         { text: '历史记录', icon: 'mdi-history' },
         { text: '离线文件', icon: 'mdi-check-circle' },
         { text: '上传', icon: 'mdi-upload' },
-        { text: '备份', icon: 'mdi-cloud-upload' }
+        { text: '退出登录', icon: 'mdi-cloud-upload' }
       ]
     }
   },

@@ -3,11 +3,18 @@
     <div class="navtop">
       <div class="header">
         <div class="head">
-          <v-img class="head-img" src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+          <v-img class="head-img"
+            src="https://cdn.vuetifyjs.com/images/john.png"
+            @click="this.login = !this.login"
+            >
+          </v-img>
         </div>
-        <div>
+        <div v-if="login">
           <div class="username">cleanown</div>
           <div>邮箱：cleanown@outlook.com</div>
+        </div>
+        <div v-else class="nologin" @click="handleLoginClick">
+          未登录...
         </div>
       </div>
       <div class="box">
@@ -60,7 +67,13 @@ export default {
         { text: '我的收藏', icon: 'mdi-star' },
         { text: '人工服务', icon: 'mdi-account-circle' },
         { text: '设置', icon: 'mdi-wrench' }
-      ]
+      ],
+      login: false
+    }
+  },
+  methods: {
+    handleLoginClick () {
+      this.$router.push('/login')
     }
   }
 }
@@ -87,6 +100,11 @@ export default {
         line-height: 40px;
         font-size: 22px;
         font-weight: bolder;;
+      }
+      .nologin{
+        margin-top: 30px;
+        font-size: 30px;
+        line-height: 30px;
       }
     }
   }

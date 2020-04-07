@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar>
-      <v-btn icon>
+      <v-btn icon @click="handleBackClick">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-toolbar-title>登录</v-toolbar-title>
@@ -28,6 +28,9 @@ export default {
   methods: {
     handleRegisterClick () {
       this.$router.push('register')
+    },
+    handleBackClick () {
+      this.$router.go(-1)
     }
   }
 }
