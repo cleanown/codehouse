@@ -12,9 +12,22 @@
     </v-toolbar>
     <div class="login">
       <p class="login-title">Code House</p>
-      <p class="login-desc">账号：<v-text-field label="用户名/邮箱/手机号" hide-details="auto"></v-text-field></p>
-      <p class="login-desc">密码: <v-text-field label="输入6-16位数字/字母/符号" type="password"></v-text-field></p>
-      <v-btn block depressed large color="primary" class="login-btn">登录</v-btn>
+      <p class="login-desc">
+        账号：<v-text-field
+        label="用户名/邮箱/手机号"
+        hide-details="auto"
+        v-model="username"
+        >
+      </v-text-field></p>
+      <p class="login-desc">
+        密码: <v-text-field
+        label="输入6-16位数字/字母/符号"
+        type="password"
+        v-model="password"
+        counter="16"
+        >
+      </v-text-field></p>
+      <v-btn block depressed large color="primary" class="login-btn" @click="handleLoginClick">登录</v-btn>
     </div>
     <div class="register">
       <div>忘记密码</div>|<div @click="handleRegisterClick">无账号？</div>
@@ -25,12 +38,31 @@
 <script>
 export default {
   name: 'login',
+  data () {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  watch: {
+    username (val) {
+      console.log(val)
+    },
+    password (val) {
+      console.log(val)
+    }
+  },
   methods: {
     handleRegisterClick () {
       this.$router.push('register')
     },
     handleBackClick () {
       this.$router.go(-1)
+    },
+    handleLoginClick () {
+      if (this.username === '' && this.password === '') {
+        alert('账号密码不得为空')
+      }
     }
   }
 }
