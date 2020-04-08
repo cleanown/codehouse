@@ -18,7 +18,6 @@
         label="用户名/邮箱/手机号"
         hide-details="auto"
         v-model="username"
-        validate-on-blur="checkname"
         >
       </v-text-field></p>
       <p class="login-desc">
@@ -62,15 +61,10 @@ export default {
     },
     password (val) {
       console.log(val)
-      const reg = '/^[A-Z]{1,}+[a-z]{1,}+[0-9]{1,}.{6,16}/'
-      if (!reg.indexOf(val)) {
+      if (!val) {
+        alert('密码不得为空')
       }
     }
-    // checkname () {
-    //   if (this.username.length < 3 || this.username.length > 10) {
-    //     alert('请输入4-10位昵称')
-    //   }
-    // }
   },
   methods: {
     handleRegisterClick () {
@@ -80,11 +74,7 @@ export default {
       this.$router.go(-1)
     },
     handleLoginClick () {
-    },
-    checkname () {
-      if (this.username.length < 3 || this.username.length > 10) {
-        alert('请输入4-10位昵称')
-      }
+      this.password()
     }
   }
 }
