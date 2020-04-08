@@ -75,6 +75,7 @@
         color="deep-purple darken-2"
         style="color: #fff"
         class="dialogue-message"
+        @click="sendClick"
         >
         发送
       </v-btn>
@@ -110,7 +111,7 @@
       ></v-carousel-item>
     </v-carousel>
 
-    <my-detail></my-detail>
+    <my-detail :sendmessage="sendmessage"></my-detail>
   </div>
 </template>
 
@@ -129,6 +130,15 @@ export default {
       styledialogue: { color: '#757575' },
       styleFabulous: { color: '#757575' },
       message: '',
+      sendmessage: [{
+        headImgUrl: require('../assets/logo.png'),
+        name: 'cleanown',
+        desc: '这家公司徒有其表，打着招聘的名义培训，使众多实习生家破人亡，可恨！'
+      }, {
+        headImgUrl: require('../assets/logo.png'),
+        name: 'cleanown',
+        desc: '这家公司徒有其表，打着招聘的名义培训，使众多实习生家破人亡，可恨！'
+      }],
       num: 5,
       carousel: false,
       detailimg: [
@@ -179,6 +189,14 @@ export default {
     },
     handleOpenClick () {
       this.messageshow = true
+    },
+    sendClick () {
+      const a = {
+        headImgUrl: require('../assets/logo.png'),
+        name: 'cleanown',
+        desc: this.message
+      }
+      this.sendmessage.push(a)
     }
   }
 }
