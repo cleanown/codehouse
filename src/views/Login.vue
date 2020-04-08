@@ -14,20 +14,32 @@
       <p class="login-title">Code House</p>
       <p class="login-desc">
         账号：<v-text-field
+        clearable
         label="用户名/邮箱/手机号"
         hide-details="auto"
         v-model="username"
+        validate-on-blur="checkname"
         >
       </v-text-field></p>
       <p class="login-desc">
         密码: <v-text-field
+        clearable
         label="输入6-16位数字/字母/符号"
         type="password"
         v-model="password"
         counter="16"
         >
       </v-text-field></p>
-      <v-btn block depressed large color="primary" class="login-btn" @click="handleLoginClick">登录</v-btn>
+      <v-btn
+        block
+        depressed
+        large
+        color="primary"
+        class="login-btn"
+        @click="handleLoginClick"
+        >
+        登录
+      </v-btn>
     </div>
     <div class="register">
       <div>忘记密码</div>|<div @click="handleRegisterClick">无账号？</div>
@@ -50,7 +62,15 @@ export default {
     },
     password (val) {
       console.log(val)
+      const reg = '/^[A-Z]{1,}+[a-z]{1,}+[0-9]{1,}.{6,16}/'
+      if (!reg.indexOf(val)) {
+      }
     }
+    // checkname () {
+    //   if (this.username.length < 3 || this.username.length > 10) {
+    //     alert('请输入4-10位昵称')
+    //   }
+    // }
   },
   methods: {
     handleRegisterClick () {
@@ -60,8 +80,10 @@ export default {
       this.$router.go(-1)
     },
     handleLoginClick () {
-      if (this.username === '' && this.password === '') {
-        alert('账号密码不得为空')
+    },
+    checkname () {
+      if (this.username.length < 3 || this.username.length > 10) {
+        alert('请输入4-10位昵称')
       }
     }
   }
