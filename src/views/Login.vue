@@ -13,9 +13,9 @@
     <div class="login">
       <p class="login-title">Code House</p>
       <p class="login-desc">
-        账号：<v-text-field
+        用户名：<v-text-field
         clearable
-        label="用户名/邮箱/手机号"
+        label="输入你的靓称~"
         hide-details="auto"
         v-model="username"
         >
@@ -27,6 +27,7 @@
         type="password"
         v-model="password"
         counter="16"
+        @mouseout="pwdpwdOutActive"
         >
       </v-text-field></p>
       <v-btn
@@ -43,6 +44,22 @@
     <div class="register">
       <div>忘记密码</div>|<div @click="handleRegisterClick">无账号？</div>
     </div>
+
+    <v-snackbar
+      v-model="snackbar"
+      top
+      :timeout="timeout"
+      class='tips'
+    >
+      {{ text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -52,7 +69,10 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      snackbar: false,
+      text: '',
+      timeout: 2000
     }
   },
   watch: {
@@ -61,9 +81,6 @@ export default {
     },
     password (val) {
       console.log(val)
-      if (!val) {
-        alert('密码不得为空')
-      }
     }
   },
   methods: {
@@ -73,14 +90,35 @@ export default {
     handleBackClick () {
       this.$router.go(-1)
     },
+    pwdpwdOutActive () {
+      const countsReg = /^.{4,16}$/
+      const letterReg = /^(?![A-Za-z]+$)*(?![0-9]+$)*/
+      if (!countsReg.test(this.password)) {
+        this.snackbar = true
+        this.text = '请输入4-16位密码'
+      } else if (!letterReg.test(this.password)) {
+        this.snackbar = true
+        this.text = '密码需有字母和数字组合'
+      }
+      return true
+    },
     handleLoginClick () {
-      this.password()
+      const url = 'http://cleanown.cn:3000/user/login'
+      this.$http.post(url, {
+        username: this.username,
+        password: this.password
+      }).then((res) => {
+        console.log(res)
+      })
     }
   }
 }
 </script>
 
 <style lang="scss">
+  .tips{
+    margin-top: 56px;
+  }
   .login{
     margin: 20px;
     .login-title{

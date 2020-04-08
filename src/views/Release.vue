@@ -21,7 +21,7 @@
         ></v-textarea>
         <p>上传图片：</p>
       <input type="file" />
-      <v-btn block depressed large color="primary" class="containter-btn">提交</v-btn>
+      <v-btn block depressed large color="primary" class="containter-btn">发布</v-btn>
     </div>
   </div>
 </template>

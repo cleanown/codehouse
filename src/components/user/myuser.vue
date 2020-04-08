@@ -42,6 +42,7 @@
           v-for="(item, i) in items"
           :key="i"
           class="userlist"
+          @click="handleListClick(i)"
         >
           <v-list-item-icon style="height: 42px">
             <v-icon v-text="item.icon"></v-icon>
@@ -65,7 +66,6 @@ export default {
         { text: '发布记录', icon: 'mdi-clock' },
         { text: '查询记录', icon: 'mdi-magnify' },
         { text: '我的收藏', icon: 'mdi-star' },
-        { text: '人工服务', icon: 'mdi-account-circle' },
         { text: '设置', icon: 'mdi-wrench' }
       ],
       login: false
@@ -77,6 +77,14 @@ export default {
     },
     handleCheckClick () {
       this.login = !this.login
+    },
+    handleListClick (i) {
+      if (i === 0) {
+        this.$router.push('/release')
+      }
+      if (i === 1) {
+        this.$router.push('/detail')
+      }
     }
   }
 }
