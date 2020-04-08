@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar class="header">
-      <v-btn icon>
+      <v-btn icon @click="handleBackClick">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
       <v-toolbar-title>发布新内容</v-toolbar-title>
@@ -30,6 +30,9 @@
 export default {
   name: 'release',
   methods: {
+    handleBackClick () {
+      this.$router.go(-1)
+    },
     handleHomeClick () {
       this.$router.push('/')
     }

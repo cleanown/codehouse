@@ -14,98 +14,51 @@
       <div class="container-detail">
         <p class="container-head">广州顺丰集团有限公司</p>
         <p class="container-desc">块级元素的垂直相邻外边距会合并，而行内元素实际上不占上
-          下外边距。行内元素的的左右外边距不会合并。
-          同样地，浮动元素的外边距也不会合并。允许指定负的外边距值，不过使用时要小心
-          块级元素的垂直相邻外边距会合并，而行内元素实际上不占上下外边距。行内元素的的
-          左右外边距不会合并。同样地，
-          下外边距。行内元素的的左右外边距不会合并。
-          同样地，浮动元素的外边距也不会合并。允许指定负的外边距值，不过使用时要小心
-          块级元素的垂直相邻外边距会合并，而行内元素实际上不占上下外边距。行内元素的的
-          左右外边距不会合并。同样地，
-          下外边距。行内元素的的左右外边距不会合并。
-          同样地，浮动元素的外边距也不会合并。允许指定负的外边距值，不过使用时要小心
-          块级元素的垂直相邻外边距会合并，而行内元素实际上不占上下外边距。行内元素的的
-          左右外边距不会合并。同样地，
-          下外边距。行内元素的的左右外边距不会合并。
-          同样地，浮动元素的外边距也不会合并。允许指定负的外边距值，不过使用时要小心
-          块级元素的垂直相邻外边距会合并，而行内元素实际上不占上下外边距。行内元素的的
-          左右外边距不会合并。同样地，
-          浮动元素的外边距也不会合并。允许指定负的外边距值，不过使用时要小心。。</p>
+          下外边距。行内元素的的左右外边距不会合并。</p>
         <div class="box">
-          <div class="box-item">
-            <img class="box-item-img" src="../assets/2.jpg" />
-          </div>
-          <div class="box-item">
-            <img class="box-item-img" src="../assets/logo.png" />
-          </div>
-          <div class="box-item">
-            <img class="box-item-img" src="../assets/music.png" />
-          </div>
-          <div class="box-item">
-            <img class="box-item-img" src="../assets/music.png" />
-          </div>
-          <div class="box-item">
-            <img class="box-item-img" src="../assets/logo.png" />
+          <div class="box-item" v-for="(item, index) of detailimg" :key="index" @click="carousel = true">
+            <img class="box-item-img" :src="item.imgUrl" alt="图片加载失败"/>
           </div>
         </div>
-      </div>
-      <div class="opinion">
-        <v-btn
-          icon
-          class="tips"
-          @click="handleCommentClick"
-          :style="stylecomment"
-          >
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-        <div class="tips">
-          <v-btn
-            icon
-            @click="handleFabulousClick"
-            :style="styleFabulous"
-            >
-            <v-icon>mdi-thumb-up</v-icon>
-          </v-btn>
-          <div>{{this.$store.state.fabulous}}</div>
-        </div>
-        <div class="tips" @click="handleOpenClick">
-          <v-btn
-          icon
-          >
-          <v-icon>mdi-chat</v-icon>
-        </v-btn>
-        <div>{{num}}</div>
-        </div>
-        <v-btn
-          icon
-          class="tips"
-          >
-          <v-icon>mdi-reply</v-icon>
-        </v-btn>
       </div>
     </div>
-    <v-alert
-      type="success"
-      transition="slide-y-reverse-transition"
-      dense
-      mode
-      class="alert"
-      v-if="alertcomment"
-      >
-      收藏成功
-    </v-alert>
-    <!-- <v-alert
-      type="info"
-      transition="slide-y-reverse-transition"
-      dense
-      dismissible
-      class="alert"
-      v-if="alertpass"
-      >
-      取消收藏
-    </v-alert> -->
 
-    <div class="comment" v-show="messageshow">
+    <div class="opinion">
+      <v-btn
+        icon
+        class="tips"
+        @click="handledialogueClick"
+        :style="styledialogue"
+        >
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+      <div class="tips">
+        <v-btn
+          icon
+          @click="handleFabulousClick"
+          :style="styleFabulous"
+          >
+          <v-icon>mdi-thumb-up</v-icon>
+        </v-btn>
+        <div>{{this.$store.state.fabulous}}</div>
+      </div>
+      <div class="tips" @click="handleOpenClick">
+        <v-btn
+        icon
+        >
+        <v-icon>mdi-chat</v-icon>
+      </v-btn>
+      <div>{{num}}</div>
+      </div>
+      <v-btn
+        icon
+        class="tips"
+        >
+        <v-icon>mdi-reply</v-icon>
+      </v-btn>
+    </div>
+
+    <div class="dialogue" v-show="messageshow">
       <v-btn icon style="margin-right: 7px" @click="handleCloseClick">
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
@@ -121,32 +74,79 @@
         rounded
         color="deep-purple darken-2"
         style="color: #fff"
-        class="comment-message"
+        class="dialogue-message"
         >
         发送
       </v-btn>
     </div>
 
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      top
+      :color="snackcolor"
+      class="alertshow"
+    >
+      {{ text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        <v-icon>mid-close</v-icon>
+      </v-btn>
+    </v-snackbar>
+
+    <v-carousel
+      v-if="carousel"
+      hide-delimiters
+      >
+      <v-carousel-item
+        v-for="(item,i) in detailimg"
+        :key="i"
+        :src="item.imgUrl"
+        reverse-transition="fade-transition"
+        transition="fade-transition"
+      ></v-carousel-item>
+    </v-carousel>
+
+    <my-detail></my-detail>
   </div>
 </template>
 
 <script>
+import MyDetail from '../components/detail/mydetail'
 export default {
   name: 'detail',
   data () {
     return {
       title: '详情',
+      timeout: 1000,
       messageshow: false,
-      alertcomment: false,
-      stylecomment: {
-        color: '#757575'
-      },
-      styleFabulous: {
-        color: '#757575'
-      },
+      snackbar: false,
+      snackcolor: '#ccc',
+      text: '取消收藏',
+      styledialogue: { color: '#757575' },
+      styleFabulous: { color: '#757575' },
       message: '',
-      num: 5
+      num: 5,
+      carousel: false,
+      detailimg: [
+        { imgUrl: require('../assets/a1.png') },
+        { imgUrl: require('../assets/a2.png') },
+        { imgUrl: require('../assets/a3.png') },
+        { imgUrl: require('../assets/a4.png') },
+        { imgUrl: require('../assets/a5.png') },
+        { imgUrl: require('../assets/a6.png') },
+        { imgUrl: require('../assets/a7.png') },
+        { imgUrl: require('../assets/2.jpg') },
+        { imgUrl: require('../assets/a1.png') },
+        { imgUrl: require('../assets/a1.png') }
+      ]
     }
+  },
+  components: {
+    MyDetail
   },
   watch: {
     message (val) {
@@ -160,12 +160,11 @@ export default {
     handleHomeClick () {
       this.$router.push('/')
     },
-    handleCommentClick () {
-      this.stylecomment.color = this.stylecomment.color === '#757575' ? '#651FFF' : '#757575'
-      this.alertcomment = true
-      setTimeout(() => {
-        this.alertcomment = false
-      }, 2000)
+    handledialogueClick () {
+      this.styledialogue.color = this.styledialogue.color === '#757575' ? '#651FFF' : '#757575'
+      this.snackbar = true
+      this.text = this.text === '取消收藏' ? '收藏成功' : '取消收藏'
+      this.snackcolor = this.snackcolor === '#ccc' ? 'green' : '#ccc'
     },
     handleFabulousClick () {
       this.styleFabulous.color = this.styleFabulous.color === '#757575' ? '#651FFF' : '#757575'
@@ -186,6 +185,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.alertshow{
+  margin-top: 56px;
+}
 .alert{
   position: fixed;
   width: 95%;
@@ -201,6 +203,7 @@ export default {
   margin-top: 56px;
   margin-bottom: 56px;
   padding: 20px;
+  background: #fff;
   .container-detail{
     .container-head{
       font-size: 20px;
@@ -235,14 +238,13 @@ export default {
   height: 56px;
   color: #000;
   align-items: center;
-  padding: 0 20px;
   .tips{
     display: flex;
     margin-right: 15px;
     align-items: center;
   }
 }
-.comment{
+.dialogue{
   position: fixed;
   display: flex;
   width: 100%;
@@ -251,7 +253,7 @@ export default {
   bottom: 0;
   align-items: center;
   padding: 0 10px;
-  .comment-message{
+  .dialogue-message{
     margin-left: 10px;
   }
 }

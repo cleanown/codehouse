@@ -103,7 +103,7 @@ export default {
       return true
     },
     handleLoginClick () {
-      const url = 'http://cleanown.cn:3000/user/login'
+      const url = 'http://api.cleanown.cn/user/login'
       this.$http.post(url, {
         username: this.username,
         password: this.password

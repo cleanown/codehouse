@@ -151,7 +151,7 @@ export default {
       this.repwd = ''
     },
     handleRegisterClick () {
-      const url = 'http://cleanown.cn:3000/user/sign'
+      const url = 'http://api.cleanown.cn/user/sign'
       const registerdata = {
         username: this.username,
         password: this.password
