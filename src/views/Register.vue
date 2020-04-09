@@ -158,13 +158,16 @@ export default {
       }
       this.$http.post(url, registerdata).then((res) => {
         console.log(res)
+        if (res) {
+          this.$router.push('/user')
+        }
       })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .tips{
     margin-top: 56px;
   }

@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    fabulous: 2
+    fabulous: 2,
+    login: false
   },
   mutations: {
     increment: state => state.fabulous++,
-    decrement: state => state.fabulous--
+    decrement: state => state.fabulous--,
+    loginbtn () {
+      this.state.login = true
+    }
   },
   actions: {
   },

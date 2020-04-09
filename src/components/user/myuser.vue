@@ -63,9 +63,9 @@ export default {
     return {
       item: false,
       items: [
-        { text: '发布记录', icon: 'mdi-clock' },
-        { text: '查询记录', icon: 'mdi-magnify' },
-        { text: '我的收藏', icon: 'mdi-star' },
+        { text: '发布', icon: 'mdi-clock' },
+        { text: '查询', icon: 'mdi-magnify' },
+        { text: '收藏', icon: 'mdi-star' },
         { text: '设置', icon: 'mdi-wrench' }
       ],
       login: false

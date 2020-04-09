@@ -15,7 +15,7 @@
       <p class="login-desc">
         用户名：<v-text-field
         clearable
-        label="输入你的靓称~"
+        label="输入你的昵称"
         hide-details="auto"
         v-model="username"
         >
@@ -109,13 +109,14 @@ export default {
         password: this.password
       }).then((res) => {
         console.log(res)
+        this.$router.push('/user')
       })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .tips{
     margin-top: 56px;
   }

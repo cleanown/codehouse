@@ -133,11 +133,11 @@ export default {
       sendmessage: [{
         headImgUrl: require('../assets/logo.png'),
         name: 'cleanown',
-        desc: '这家公司徒有其表，打着招聘的名义培训，使众多实习生家破人亡，可恨！'
+        desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了'
       }, {
         headImgUrl: require('../assets/logo.png'),
         name: 'cleanown',
-        desc: '这家公司徒有其表，打着招聘的名义培训，使众多实习生家破人亡，可恨！'
+        desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了'
       }],
       num: 5,
       carousel: false,
@@ -197,6 +197,7 @@ export default {
         desc: this.message
       }
       this.sendmessage.push(a)
+      this.message = ''
     }
   }
 }

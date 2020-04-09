@@ -61,7 +61,7 @@ export default {
       })
     },
     searchItem () {
-      const url = 'http://cleanown.cn:3000/search/companylist'
+      const url = 'http://api.cleanown.cn/search/companylist'
       this.$http.get(url, {
         params: {
           key: this.searchvalue
