@@ -21,17 +21,28 @@
           v-model="companydetail"
         ></v-textarea>
         <p>上传图片：</p>
-      <input type="file" :v-model="imgUrl" />
+        <v-file-input
+          :rules="rules"
+          accept="image/png, image/jpeg, image/bmp"
+          placeholder="Pick an avatar"
+          prepend-icon="mdi-camera"
+          label="Avatar"
+        ></v-file-input>
       <div class="city">
         <p>地址：</p>
-        <el-cascader
-          class="cascader"
-          :options="options"
-          clearable
-          v-model="selectedOptions"
-          @change="handleChange"
-          >
-        </el-cascader>
+        <v-autocomplete
+          v-model="select"
+          :loading="loading"
+          :items="items"
+          :search-input.sync="search"
+          cache-items
+          class="mx-4"
+          flat
+          hide-no-data
+          hide-details
+          label="What state are you from?"
+          solo-inverted
+        ></v-autocomplete>
         <p>详细地址:</p>
         <v-text-field
           label="详细地址：如道路、门牌号、小区等"
@@ -53,26 +64,31 @@
         发布
       </v-btn>
     </div>
-
   </div>
 </template>
 
 <script>
-import { regionDataPlus, CodeToText } from 'element-china-area-data'
+import { provinceAndCityData } from 'element-china-area-data'
 // provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, CodeToText, TextToCode
 export default {
   name: 'release',
   data () {
     return {
-      options: regionDataPlus,
-      selectedOptions: [],
       companyname: '',
       companydetail: '',
       imgUrl: [],
       province: '',
       city: '',
       county: '',
-      address: ''
+      address: '',
+      rules: [
+        value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!'
+      ],
+      loading: false,
+      items: provinceAndCityData,
+      search: null,
+      select: null,
+      states: provinceAndCityData
     }
   },
   watch: {
@@ -84,6 +100,12 @@ export default {
     },
     imgUrl (val) {
       console.log(val)
+    },
+    search (val) {
+      val && val !== this.select && this.querySelections(val)
+    },
+    states (val) {
+      console.log(val)
     }
   },
   methods: {
@@ -93,12 +115,18 @@ export default {
     handleHomeClick () {
       this.$router.push('/')
     },
-    handleChange (val) {
-      this.province = CodeToText[this.selectedOptions[0]]
-      this.city = CodeToText[this.selectedOptions[1]]
-      this.county = CodeToText[this.selectedOptions[2]]
+    querySelections (v) {
+      this.loading = true
+      // Simulated ajax query
+      setTimeout(() => {
+        this.items = this.states.filter(e => {
+          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+        })
+        this.loading = false
+      }, 500)
     },
     handlePostClick () {
+      this.lays = true
       console.log(this.companyname)
       console.log(this.companydetail)
       console.log(this.province)
