@@ -91,8 +91,5 @@ export default {
 }
 .searchlist{
   margin-top: 48px;
-  .list{
-
-  }
 }
 </style>
