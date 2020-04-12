@@ -69,8 +69,8 @@
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn value="news">
-        <span>新闻</span>
+      <v-btn value="release">
+        <span>发布</span>
         <v-icon>mdi-newspaper</v-icon>
       </v-btn>
 

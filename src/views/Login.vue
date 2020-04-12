@@ -27,7 +27,7 @@
         type="password"
         v-model="password"
         counter="16"
-        @mouseout="pwdpwdOutActive"
+        @mouseout="pwdOutActive"
         >
       </v-text-field></p>
       <v-btn
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import config from '../request/config'
 export default {
   name: 'login',
   data () {
@@ -90,7 +91,7 @@ export default {
     handleBackClick () {
       this.$router.go(-1)
     },
-    pwdpwdOutActive () {
+    pwdOutActive () {
       const countsReg = /^.{4,16}$/
       const letterReg = /^(?![A-Za-z]+$)*(?![0-9]+$)*/
       if (!countsReg.test(this.password)) {
@@ -103,13 +104,23 @@ export default {
       return true
     },
     handleLoginClick () {
-      const url = 'http://api.cleanown.cn/user/login'
+      const url = `${config.online}/user/login`
+      console.log(url)
       this.$http.post(url, {
         username: this.username,
         password: this.password
       }).then((res) => {
+        res = res.data
         console.log(res)
-        this.$router.push('/user')
+        if (res.success || res.data) {
+          localStorage.setItem('token', res.data.id)
+          this.$router.push({
+            path: '/'
+          })
+        } else {
+          this.snackbar = true
+          this.text = res.resMsg
+        }
       })
     }
   }

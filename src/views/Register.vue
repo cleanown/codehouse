@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import config from '../request/config'
 export default {
   name: 'register',
   data () {
@@ -151,7 +152,7 @@ export default {
       this.repwd = ''
     },
     handleRegisterClick () {
-      const url = 'http://api.cleanown.cn/user/sign'
+      const url = `${config.online}/user/sign`
       const registerdata = {
         username: this.username,
         password: this.password

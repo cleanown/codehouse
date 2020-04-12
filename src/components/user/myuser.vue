@@ -36,7 +36,7 @@
     <v-list
       dense
       >
-      <v-subheader style="border-bottom: 1px solid #ccc">我的</v-subheader>
+      <v-subheader class="list-title">我的</v-subheader>
       <v-list-item-group v-model="item" color="primary">
         <v-list-item
           v-for="(item, i) in items"
@@ -147,6 +147,11 @@ export default {
         color: rgb(6, 15, 141);
       }
     }
+  }
+  .list-title{
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    font-weight: bolder;
   }
   .userlist{
     border-bottom: 1px solid #eee;

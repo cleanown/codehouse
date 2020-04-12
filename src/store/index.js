@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    fabulous: 2
+    fabulous: 2,
+    username: '',
+    password: ''
   },
   mutations: {
     increment: state => state.fabulous++,

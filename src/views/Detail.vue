@@ -20,6 +20,7 @@
             <img class="box-item-img" :src="item.imgUrl" alt="图片加载失败"/>
           </div>
         </div>
+        <div class="release-time">{{releaseTime}}</div>
       </div>
     </div>
 
@@ -50,12 +51,6 @@
       </v-btn>
       <div>{{num}}</div>
       </div>
-      <v-btn
-        icon
-        class="tips"
-        >
-        <v-icon>mdi-reply</v-icon>
-      </v-btn>
     </div>
 
     <div class="dialogue" v-show="messageshow">
@@ -111,12 +106,12 @@
       ></v-carousel-item>
     </v-carousel>
 
-    <my-detail :sendmessage="sendmessage"></my-detail>
+    <comment :sendmessage="sendmessage" />
   </div>
 </template>
 
 <script>
-import MyDetail from '../components/detail/mydetail'
+import Comment from '../components/detail/comment'
 export default {
   name: 'detail',
   data () {
@@ -152,11 +147,12 @@ export default {
         { imgUrl: require('../assets/2.jpg') },
         { imgUrl: require('../assets/a1.png') },
         { imgUrl: require('../assets/a1.png') }
-      ]
+      ],
+      releaseTime: '2020-4-12'
     }
   },
   components: {
-    MyDetail
+    Comment
   },
   watch: {
     message (val) {
@@ -220,7 +216,6 @@ export default {
 }
 .container{
   margin-top: 56px;
-  margin-bottom: 56px;
   padding: 20px;
   background: #fff;
   .container-detail{
@@ -244,6 +239,10 @@ export default {
           height: 100%;
         }
       }
+    }
+    .release-time{
+      float: right;
+      margin-right: 20px;
     }
   }
 }

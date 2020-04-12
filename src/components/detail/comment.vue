@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'mydetail',
+  name: 'comment',
   props: {
     sendmessage: Array
   }

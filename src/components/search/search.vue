@@ -9,11 +9,6 @@
         clearable
         hide-details
       >
-        <template v-slot:append>
-          <v-btn icon color="#ccc" @click="handleSearchClick">
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-        </template>
       </v-text-field>
     </div>
     <v-list
@@ -22,6 +17,7 @@
       <v-list-item
         v-for="(item, index) in items"
         :key="index"
+        class="list"
         style="border-bottom: 1px solid #eee"
       >
         <v-list-item-icon>
@@ -29,10 +25,10 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title v-text="item.companyName"></v-list-item-title>
+          <v-list-item-title v-text="item.companyname"></v-list-item-title>
         </v-list-item-content>
 
-        <v-list-item-avatar>
+        <v-list-item-avatar size="80" height="40">
           <v-list-item-title v-text="item.city"></v-list-item-title>
         </v-list-item-avatar>
       </v-list-item>
@@ -41,6 +37,7 @@
 </template>
 
 <script>
+import config from '../../request/config'
 export default {
   name: 'searchArea',
   data () {
@@ -54,6 +51,9 @@ export default {
       this.searchItem()
     }
   },
+  mounted () {
+    this.searchItem()
+  },
   methods: {
     handleSearchClick () {
       this.items = this.items.filter((obj) => {
@@ -61,7 +61,7 @@ export default {
       })
     },
     searchItem () {
-      const url = 'http://api.cleanown.cn/search/companylist'
+      const url = `${config.online}/search/companylist`
       this.$http.get(url, {
         params: {
           key: this.searchvalue
@@ -91,5 +91,8 @@ export default {
 }
 .searchlist{
   margin-top: 48px;
+  .list{
+
+  }
 }
 </style>

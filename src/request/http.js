@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 
 const http = axios.create()
 // http.defaults.baseURL = configApi.home
@@ -9,13 +10,13 @@ http.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 // 请求拦截
 http.interceptors.request.use((config) => {
   // 如果有token,添加到请求报文 后台会根据该报文返回status
-  const token = window.sessionStorage.getItem('userId') || false
+  const token = window.localStorage.getItem('token') || false
   if (token) {
-    config.headers.token = token
+    config.headers.authorization = token
   } else {
-    // router.replace({
-    //   path: '/login'
-    // })
+    router.replace({
+      path: '/login'
+    })
   }
   return config
 },
