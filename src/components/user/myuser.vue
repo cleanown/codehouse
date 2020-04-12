@@ -39,7 +39,7 @@
           :key="i"
           v-show="item.role <= $store.state.userinfo.role"
           class="userlist"
-          @click="handleListClick(i)"
+          @click="handleListClick(item.id)"
         >
           <v-list-item-icon style="height: 42px">
             <v-icon v-text="item.icon"></v-icon>
@@ -70,18 +70,27 @@ export default {
     return {
       item: false,
       items: [
-        { text: '管理', icon: 'mdi-magnify', role: 2 },
-        { text: '查询', icon: 'mdi-magnify', role: 1 },
-        { text: '收藏', icon: 'mdi-star', role: 1 },
-        { text: '设置', icon: 'mdi-wrench', role: 1 }
+        { id: 0, text: '管理', icon: 'mdi-magnify', role: 2 },
+        { id: 1, text: '查询', icon: 'mdi-magnify', role: 1 },
+        { id: 2, text: '收藏', icon: 'mdi-star', role: 1 },
+        { id: 3, text: '设置', icon: 'mdi-wrench', role: 1 }
       ],
       manage: false
     }
   },
   methods: {
-    handleListClick (i) {
-      if (i === 0) {
-        this.$router.push('/detail')
+    handleListClick (id) {
+      switch (id) {
+        case 0:
+          this.$router.push({
+            path: '/manage'
+          })
+          break
+        case 1:
+          this.$router.push({
+            path: '/detail'
+          })
+          break
       }
     },
     handlelogOut () {
