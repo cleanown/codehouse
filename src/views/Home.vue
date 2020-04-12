@@ -8,17 +8,17 @@
       app
       color="deep-purple"
     >
-      <v-btn value="search">
+      <v-btn value="search" icon>
         <span>搜索</span>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn value="release">
+      <v-btn value="release" icon>
         <span>发布</span>
         <v-icon>mdi-newspaper</v-icon>
       </v-btn>
 
-      <v-btn value="user">
+      <v-btn value="user" icon>
         <span>个人中心</span>
         <v-icon>mdi-account</v-icon>
       </v-btn>

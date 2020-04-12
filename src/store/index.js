@@ -6,12 +6,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     fabulous: 2,
-    username: '',
-    password: ''
+    userinfo: {}
   },
   mutations: {
     increment: state => state.fabulous++,
-    decrement: state => state.fabulous--
+    decrement: state => state.fabulous--,
+    userinfo (state, userinfo) {
+      state.userinfo = userinfo
+      console.log(userinfo)
+    }
   },
   actions: {
   },

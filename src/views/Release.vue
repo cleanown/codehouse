@@ -45,6 +45,7 @@
             label="省份"
             @change="handleChange"
             return-object
+            style="margin-right: 20px"
           ></v-autocomplete>
           <v-autocomplete
             :items="this.province.children"
@@ -174,21 +175,35 @@ export default {
       console.log(this.province.label)
       console.log(this.city.label)
       console.log(this.address)
-      const url = `${config.online}/company/add`
-      this.$http.post(url, {
-        companyname: this.companyname,
-        companydetail: this.companydetail,
-        province: this.province.label,
-        city: this.city.label
-      }).then((res) => {
-        res = res.data
-        console.log(res)
-        if (res.success || res.data) {
-          this.snackbar = true
-          this.text = '发布成功，等待审核'
-          this.$router.push('/user')
-        }
-      })
+      if (!this.companyname) {
+        this.snackbar = true
+        this.text = '请输入公司名称'
+      } else if (!this.companydetail) {
+        this.snackbar = true
+        this.text = '请输入相关内容'
+      } else if (!this.province || !this.city) {
+        this.snackbar = true
+        this.text = '请输入城市地址'
+      } else if (!this.address) {
+        this.snackbar = true
+        this.text = '请输入详细地址'
+      } else {
+        const url = `${config.online}/company/add`
+        this.$http.post(url, {
+          companyname: this.companyname,
+          companydetail: this.companydetail,
+          province: this.province.label,
+          city: this.city.label
+        }).then((res) => {
+          res = res.data
+          console.log(res)
+          if (res.success || res.data) {
+            this.snackbar = true
+            this.text = '发布成功，等待审核'
+            this.$router.push('/user')
+          }
+        })
+      }
     }
   }
 }

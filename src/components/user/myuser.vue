@@ -4,17 +4,13 @@
       <div class="header">
         <div class="head">
           <v-img class="head-img"
-            src="https://cdn.vuetifyjs.com/images/john.png"
-            @click="handleCheckClick"
+            :src="this.$store.state.userinfo.headimg"
             >
           </v-img>
         </div>
-        <div v-if="login">
-          <div class="username">cleanown</div>
+        <div>
+          <div class="username">{{this.$store.state.userinfo.username}}</div>
           <div>邮箱：cleanown@outlook.com</div>
-        </div>
-        <div v-else class="nologin" @click="handleLoginClick">
-          未登录...
         </div>
       </div>
       <div class="box">
@@ -41,6 +37,7 @@
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
+          v-show="item.role <= $store.state.userinfo.role"
           class="userlist"
           @click="handleListClick(i)"
         >
@@ -53,6 +50,16 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
+    <div class="logout">
+      <v-btn
+        color="deep-purple lighten-3"
+        width="100%"
+        large
+        @click="handlelogOut"
+      >
+        退出登录
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -63,28 +70,25 @@ export default {
     return {
       item: false,
       items: [
-        { text: '发布', icon: 'mdi-clock' },
-        { text: '查询', icon: 'mdi-magnify' },
-        { text: '收藏', icon: 'mdi-star' },
-        { text: '设置', icon: 'mdi-wrench' }
+        { text: '管理', icon: 'mdi-magnify', role: 2 },
+        { text: '查询', icon: 'mdi-magnify', role: 1 },
+        { text: '收藏', icon: 'mdi-star', role: 1 },
+        { text: '设置', icon: 'mdi-wrench', role: 1 }
       ],
-      login: false
+      manage: false
     }
   },
   methods: {
-    handleLoginClick () {
-      this.$router.push('/login')
-    },
-    handleCheckClick () {
-      this.login = !this.login
-    },
     handleListClick (i) {
       if (i === 0) {
-        this.$router.push('/release')
-      }
-      if (i === 1) {
         this.$router.push('/detail')
       }
+    },
+    handlelogOut () {
+      window.localStorage.removeItem('token')
+      this.$router.push({
+        path: '/login'
+      })
     }
   }
 }
@@ -156,6 +160,11 @@ export default {
   .userlist{
     border-bottom: 1px solid #eee;
     margin: 5px;
+  }
+  .logout{
+    width: 100%;
+    padding: 10px;
+    color: #fff
   }
 }
 </style>
