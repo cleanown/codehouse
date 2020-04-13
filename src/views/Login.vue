@@ -102,16 +102,15 @@ export default {
       this.$http.post(url, {
         username: this.username,
         password: this.password
-      }).then((res) => {
-        res = res.data
-        if (res.code === 200) {
-          localStorage.setItem('token', res.data.id)
+      }).then(({ data }) => {
+        if (data.code === 200) {
+          localStorage.setItem('token', data.data.id)
           this.$router.push({
             path: '/'
           })
         } else {
           this.snackbar = true
-          this.text = res.msg
+          this.text = data.msg
         }
       })
     }
