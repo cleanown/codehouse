@@ -166,6 +166,7 @@ export default {
     changeValue (val) {
       this.searchValue = val
       this.page = 1
+      this.apidataGet()
       console.log(this.searchValue)
     },
     handleSelectClick () {
