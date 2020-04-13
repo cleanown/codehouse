@@ -73,9 +73,9 @@ export default {
     z-index: 2;
     top: 0;
     left: 0;
-    height: 68px;
+    height: 78px;
     width: 100%;
-    padding: 10px 20px;
+    padding: 15px 20px;
   }
   .searchlist{
     margin-top: 56px;

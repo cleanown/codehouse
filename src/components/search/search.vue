@@ -68,7 +68,7 @@ export default {
         }
       }).then((res) => {
         this.items = res.data.data
-        console.log(this.items)
+        // console.log(this.items)
       })
     }
   }
