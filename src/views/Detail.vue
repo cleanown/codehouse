@@ -10,6 +10,18 @@
         <v-icon>mdi-home</v-icon>
       </v-btn>
     </v-toolbar>
+
+    <div class="adminmg">
+      <div class="adminmg-item">
+        <v-btn color="error" style="margin-right: 15px" small fab>
+          <v-icon>mdi-close-thick</v-icon>
+        </v-btn>
+        <v-btn color="success" small="" fab>
+          <v-icon>mdi-check-bold</v-icon>
+        </v-btn>
+      </div>
+    </div>
+
     <div class="container">
       <div class="container-detail">
         <p class="container-head">广州顺丰集团有限公司</p>
@@ -93,24 +105,12 @@
       </v-btn>
     </v-snackbar>
 
-    <v-carousel
-      v-if="carousel"
-      hide-delimiters
-      >
-      <v-carousel-item
-        v-for="(item,i) in detailimg"
-        :key="i"
-        :src="item.imgUrl"
-        reverse-transition="fade-transition"
-        transition="fade-transition"
-      ></v-carousel-item>
-    </v-carousel>
-
     <comment :sendmessage="sendmessage" />
   </div>
 </template>
 
 <script>
+import config from '../request/config'
 import Comment from '../components/detail/comment'
 export default {
   name: 'detail',
@@ -135,7 +135,6 @@ export default {
         desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了'
       }],
       num: 5,
-      carousel: false,
       detailimg: [
         { imgUrl: require('../assets/a1.png') },
         { imgUrl: require('../assets/a2.png') },
@@ -154,12 +153,24 @@ export default {
   components: {
     Comment
   },
+  mounted () {
+    this.apiGetdata()
+  },
   watch: {
     message (val) {
       console.log(val)
     }
   },
   methods: {
+    async apiGetdata () {
+      const url = `${config.online}/company/verify`
+      const data = {
+        status: true,
+        companyid: '545445'
+      }
+      const res = await this.$http.put(url, data)
+      console.log(res)
+    },
     handleBackClick () {
       this.$router.go(-1)
     },
@@ -200,6 +211,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.adminmg{
+  position: fixed;
+  margin-top: 56px;
+  padding-top: 15px;
+  padding-right: 30px;
+  width: 100%;
+  .adminmg-item{
+    display: flex;
+    margin-right: 20px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
 .alertshow{
   margin-top: 56px;
 }

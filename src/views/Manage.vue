@@ -167,7 +167,6 @@ export default {
       this.searchValue = val
       this.page = 1
       this.apidataGet()
-      console.log(this.searchValue)
     },
     handleSelectClick () {
       this.beginTime = (this.begindate.slice(5, 7)) * 2592000000 + this.begindate.slice(8, 10) * 86400000

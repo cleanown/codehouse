@@ -76,14 +76,6 @@ export default {
       timeout: 2000
     }
   },
-  watch: {
-    username (val) {
-      console.log(val)
-    },
-    password (val) {
-      console.log(val)
-    }
-  },
   methods: {
     handleRegisterClick () {
       this.$router.push('register')
@@ -111,7 +103,6 @@ export default {
         password: this.password
       }).then((res) => {
         res = res.data
-        console.log(res)
         if (res.success || res.data) {
           localStorage.setItem('token', res.data.id)
           this.$router.push({
