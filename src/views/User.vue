@@ -81,11 +81,12 @@ export default {
     // const url = 'http://127.0.0.1:3000/user/userinfo'
     const url = `${config.online}/user/userinfo`
     const res = await this.$http.get(url)
-    if (res.data.success) {
+    if (res.data.code === 200) {
       this.$store.commit('userinfo', (res.data.data))
+      console.log(res.data.data)
     } else {
       this.snackbar = true
-      this.text = '用户获取数据错误'
+      this.text = res.msg
       this.login = true
     }
   }
@@ -95,7 +96,6 @@ export default {
 .header{
   position: fixed;
   z-index: 3;
-  opacity: 0.5;
 }
 .nav{
   align-items: center;

@@ -18,6 +18,7 @@
         v-for="(item, index) in items"
         :key="index"
         class="list"
+        @click="goDetail(item._id)"
         style="border-bottom: 1px solid #eee"
       >
         <v-list-item-icon>
@@ -67,8 +68,17 @@ export default {
           key: this.searchvalue
         }
       }).then((res) => {
-        this.items = res.data.data
-        // console.log(this.items)
+        if (res.data.code === 200) {
+          this.items = res.data.data
+        }
+      })
+    },
+    goDetail (id) {
+      this.$router.push({
+        path: '/detail',
+        query: {
+          id
+        }
       })
     }
   }

@@ -47,15 +47,13 @@ function (error) {
     // 如果返回401 即没有权限，跳到登录页重新登录
     if (error.response.status === 401) {
       // store.commit('CHANGE_TOKEN', 0);
+      console.log(error.response.status)
       if (window.localStorage.getItem('token')) {
         window.localStorage.removeItem('token')
       }
-      // router.replace({
-      //   path: '/login',
-      //   query: {
-      //     redirect: router.currentRoute.fullPath
-      //   }
-      // })
+      router.replace({
+        path: '/login'
+      })
     } else {
       // const toast = '网络错误,请稍后再试(' + error.response.status + ')'
       // store.commit('SET_LOADING', toast);

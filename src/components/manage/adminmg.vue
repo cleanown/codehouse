@@ -25,9 +25,10 @@
       >
       <v-list-item
         v-for="(item, index) in this.$store.state.adminmg.adminlist"
-        :key="index"
+        :key="item._id"
         class="list"
         style="border-bottom: 1px solid #eee"
+        @click="handleDetailClick(item._id)"
       >
         <v-list-item-icon>
           {{index + 1}}
@@ -57,6 +58,14 @@ export default {
   methods: {
     handleSearchClick () {
       this.$emit('changeValue', (this.searchvalue))
+    },
+    handleDetailClick (id) {
+      this.$router.push({
+        path: '/detail',
+        query: {
+          id
+        }
+      })
     }
   }
 }

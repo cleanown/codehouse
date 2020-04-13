@@ -11,11 +11,6 @@ const routes = [
     component: Home
   },
   {
-    path: '/news',
-    name: 'news',
-    component: () => import('../views/News')
-  },
-  {
     path: '/user',
     name: 'user',
     component: () => import('../views/User')
@@ -34,6 +29,11 @@ const routes = [
     path: '/release',
     name: 'release',
     component: () => import('../views/Release')
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/About')
   },
   {
     path: '/detail',

@@ -1,38 +1,35 @@
 <template>
   <div>
     <v-toolbar class="header">
-      <v-btn icon @click="handleBackClick">
+      <v-btn icon @click="$router.go(-1)">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
       <v-toolbar-title>{{title}}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click="handleHomeClick" color="deep-purple">
+      <v-btn icon @click="handleDeleteClick" v-if="userinfo.role > 1">
+        <v-icon>mdi-delete-forever-outline</v-icon>
+      </v-btn>
+      <v-btn icon @click="handleAdoptClick" v-show="companydetail.isverify && userinfo.role > 1">
+        <v-icon>mdi-card-bulleted-off</v-icon>
+      </v-btn>
+      <v-btn icon @click="handleAdoptClick" v-show="!companydetail.isverify && userinfo.role > 1">
+        <v-icon>mdi-check-bold</v-icon>
+      </v-btn>
+      <v-btn icon @click="$router.push({path: '/'})">
         <v-icon>mdi-home</v-icon>
       </v-btn>
     </v-toolbar>
 
-    <div class="adminmg">
-      <div class="adminmg-item">
-        <v-btn color="error" style="margin-right: 15px" small fab>
-          <v-icon>mdi-close-thick</v-icon>
-        </v-btn>
-        <v-btn color="success" small="" fab>
-          <v-icon>mdi-check-bold</v-icon>
-        </v-btn>
-      </div>
-    </div>
-
-    <div class="container">
+    <div class="container" v-if="'meta' in companydetail">
       <div class="container-detail">
-        <p class="container-head">广州顺丰集团有限公司</p>
-        <p class="container-desc">块级元素的垂直相邻外边距会合并，而行内元素实际上不占上
-          下外边距。行内元素的的左右外边距不会合并。</p>
+        <p class="container-head">{{companydetail.companyname}}</p>
+        <p class="container-desc">{{companydetail.companydetail}}</p>
         <div class="box">
-          <div class="box-item" v-for="(item, index) of detailimg" :key="index" @click="carousel = true">
+          <div class="box-item" v-for="(item, index) of companydetail.imgs" :key="index" @click="carousel = true">
             <img class="box-item-img" :src="item.imgUrl" alt="图片加载失败"/>
           </div>
         </div>
-        <div class="release-time">{{releaseTime}}</div>
+        <div class="release-time">更新时间：{{companydetail.meta.updateAt}}</div>
       </div>
     </div>
 
@@ -55,7 +52,7 @@
         </v-btn>
         <div>{{this.$store.state.fabulous}}</div>
       </div>
-      <div class="tips" @click="handleOpenClick">
+      <div class="tips" @click="messageshow = true">
         <v-btn
         icon
         >
@@ -66,7 +63,7 @@
     </div>
 
     <div class="dialogue" v-show="messageshow">
-      <v-btn icon style="margin-right: 7px" @click="handleCloseClick">
+      <v-btn icon style="margin-right: 7px" @click="messageshow = false">
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
       <v-text-field
@@ -112,10 +109,12 @@
 <script>
 import config from '../request/config'
 import Comment from '../components/detail/comment'
+import { mapState } from 'vuex'
 export default {
   name: 'detail',
   data () {
     return {
+      companydetail: {},
       title: '详情',
       timeout: 1000,
       messageshow: false,
@@ -153,6 +152,9 @@ export default {
   components: {
     Comment
   },
+  computed: {
+    ...mapState(['userinfo'])
+  },
   mounted () {
     this.apiGetdata()
   },
@@ -163,19 +165,57 @@ export default {
   },
   methods: {
     async apiGetdata () {
+      const url = `${config.online}/company/companyDetail`
+      const obj = {
+        params: {
+          companyid: this.$route.query.id
+        }
+      }
+      const res = await this.$http.get(url, obj)
+      if (res.data.code === 200) {
+        this.companydetail = res.data.data
+        console.log(this.companydetail)
+      }
+    },
+    async handleDeleteClick () {
+      const url = `${config.online}/company/admindelete`
+      const data = {
+        params: {
+          companyid: this.companydetail._id
+        }
+      }
+      const res = await this.$http.delete(url, data)
+      if (res.data.code === 200) {
+        this.snackbar = true
+        this.text = '删除成功'
+        setTimeout(() => {
+          this.$router.go(-1)
+        }, 500)
+      } else {
+        this.snackbar = true
+        this.text = res.data.msg
+      }
+    },
+    async handleAdoptClick () {
       const url = `${config.online}/company/verify`
       const data = {
-        status: true,
-        companyid: '545445'
+        status: !this.companydetail.isverify,
+        companyid: this.companydetail._id
       }
       const res = await this.$http.put(url, data)
-      console.log(res)
-    },
-    handleBackClick () {
-      this.$router.go(-1)
-    },
-    handleHomeClick () {
-      this.$router.push('/')
+      if (res.data.code === 200) {
+        if (this.companydetail.isverify) {
+          this.snackbar = true
+          this.text = '下架成功'
+        } else {
+          this.snackbar = true
+          this.text = '审核通过'
+        }
+        this.apiGetdata()
+      } else {
+        this.snackbar = true
+        this.text = res.data.msg
+      }
     },
     handledialogueClick () {
       this.styledialogue.color = this.styledialogue.color === '#757575' ? '#651FFF' : '#757575'
@@ -190,12 +230,6 @@ export default {
       } else {
         this.$store.commit('increment')
       }
-    },
-    handleCloseClick () {
-      this.messageshow = false
-    },
-    handleOpenClick () {
-      this.messageshow = true
     },
     sendClick () {
       const a = {
@@ -215,7 +249,7 @@ export default {
   position: fixed;
   margin-top: 56px;
   padding-top: 15px;
-  padding-right: 30px;
+  padding-right: 10px;
   width: 100%;
   .adminmg-item{
     display: flex;

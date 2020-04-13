@@ -197,7 +197,7 @@ export default {
         }).then((res) => {
           res = res.data
           console.log(res)
-          if (res.success || res.data) {
+          if (res.code === 200) {
             this.snackbar = true
             this.text = '发布成功，等待审核'
             this.$router.push('/user')

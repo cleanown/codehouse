@@ -28,6 +28,7 @@
         v-model="password"
         counter="16"
         @mouseout="pwdOutActive"
+        @keyup.enter="handleLoginClick"
         >
       </v-text-field></p>
       <v-btn
@@ -103,14 +104,14 @@ export default {
         password: this.password
       }).then((res) => {
         res = res.data
-        if (res.success || res.data) {
+        if (res.code === 200) {
           localStorage.setItem('token', res.data.id)
           this.$router.push({
             path: '/'
           })
         } else {
           this.snackbar = true
-          this.text = res.resMsg
+          this.text = res.msg
         }
       })
     }

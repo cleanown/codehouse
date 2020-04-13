@@ -70,10 +70,10 @@ export default {
     return {
       item: false,
       items: [
-        { id: 0, text: '管理', icon: 'mdi-magnify', role: 2 },
-        { id: 1, text: '查询', icon: 'mdi-magnify', role: 1 },
+        { id: 0, text: '管理', icon: 'mdi-progress-wrench', role: 2 },
         { id: 2, text: '收藏', icon: 'mdi-star', role: 1 },
-        { id: 3, text: '设置', icon: 'mdi-wrench', role: 1 }
+        { id: 3, text: '设置', icon: 'mdi-cog', role: 1 },
+        { id: 4, text: '关于', icon: 'mdi-information-outline', role: 1 }
       ],
       manage: false
     }
@@ -89,6 +89,11 @@ export default {
         case 1:
           this.$router.push({
             path: '/detail'
+          })
+          break
+        case 4:
+          this.$router.push({
+            path: '/about'
           })
           break
       }

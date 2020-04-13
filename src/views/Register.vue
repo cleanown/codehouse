@@ -158,9 +158,8 @@ export default {
         password: this.password
       }
       this.$http.post(url, registerdata).then((res) => {
-        console.log(res)
-        if (res) {
-          this.$router.push('/user')
+        if (res.data.code === 200) {
+          this.$router.push('/login')
         }
       })
     }
