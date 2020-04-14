@@ -1,6 +1,8 @@
 <template>
   <div class="home">
+
     <search-area />
+
     <v-bottom-navigation
       v-model="bottomNav"
       class="nav"
