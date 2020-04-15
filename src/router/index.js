@@ -41,9 +41,14 @@ const routes = [
     component: () => import('../views/Detail')
   },
   {
-    path: '/manage',
-    name: 'manage',
-    component: () => import('../views/Manage')
+    path: '/articlemanage',
+    name: 'articlemanage',
+    component: () => import('../views/ArticleManage')
+  },
+  {
+    path: '/usermanage',
+    name: 'usermanage',
+    component: () => import('../views/UserManage')
   }
 ]
 

@@ -2,7 +2,7 @@
   <div class="home">
     <div class="headerArea">
       <v-text-field
-        label="输入你想查询的公司"
+        label="输入待审核的公司"
         prepend-inner-icon="mdi-cloud-search-outline"
         solo
         v-model="searchvalue"
@@ -20,8 +20,10 @@
       </template>
       </v-text-field>
     </div>
+
     <v-list
       class="searchlist"
+      v-show="!wait"
       >
       <v-list-item
         v-for="(item, index) in this.$store.state.adminmg.adminlist"
@@ -43,12 +45,29 @@
         </v-list-item-avatar>
       </v-list-item>
     </v-list>
+
+    <div class="wait">
+      <v-progress-circular
+        class="wait-progress"
+        :size="100"
+        :width="3"
+        indeterminate
+        color="deep-purple"
+        v-show="wait"
+      >
+        加载中...
+      </v-progress-circular>
+    </div>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'adminmg',
+  name: 'articlemg',
+  props: {
+    wait: Boolean
+  },
   data () {
     return {
       searchvalue: '',
@@ -63,7 +82,8 @@ export default {
       this.$router.push({
         path: '/detail',
         query: {
-          id
+          id,
+          bgUrl: require('../../assets/wait.png')
         }
       })
     }
@@ -88,6 +108,13 @@ export default {
   }
   .searchlist{
     margin-top: 56px;
+  }
+  .wait{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 260px;
   }
 }
 </style>

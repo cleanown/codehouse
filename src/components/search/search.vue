@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+
     <div class="headerArea">
       <v-text-field
         label="输入你想查询的公司"
@@ -13,6 +14,7 @@
     </div>
     <v-list
       class="searchlist"
+      v-show="!wait"
       >
       <v-list-item
         v-for="(item, index) in items"
@@ -34,6 +36,20 @@
         </v-list-item-avatar>
       </v-list-item>
     </v-list>
+
+    <div class="wait">
+      <v-progress-circular
+        class="wait-progress"
+        :size="100"
+        :width="3"
+        indeterminate
+        color="deep-purple"
+        v-show="wait"
+      >
+        加载中...
+      </v-progress-circular>
+    </div>
+
   </div>
 </template>
 
@@ -44,7 +60,8 @@ export default {
   data () {
     return {
       searchvalue: '',
-      items: []
+      items: [],
+      wait: true
     }
   },
   watch: {
@@ -70,6 +87,8 @@ export default {
       }).then((res) => {
         if (res.data.code === 200) {
           this.items = res.data.data
+          this.wait = false
+          console.log(res.data)
         }
       })
     },
@@ -86,6 +105,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-progress-circular {
+  margin: 1rem;
+}
 .home{
   padding: 10px;
   .headerArea {
@@ -97,6 +119,13 @@ export default {
     height: 68px;
     width: 100%;
     padding: 10px 20px;
+  }
+  .wait{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 260px;
   }
 }
 .searchlist{

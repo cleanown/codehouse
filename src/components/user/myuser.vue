@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+
     <div class="navtop">
       <div class="header">
         <div class="head">
@@ -70,7 +71,8 @@ export default {
     return {
       item: false,
       items: [
-        { id: 0, text: '管理', icon: 'mdi-progress-wrench', role: 2 },
+        { id: 0, text: '发文管理', icon: 'mdi-text-box-multiple', role: 2 },
+        { id: 1, text: '用户管理', icon: 'mdi-account-circle', role: 2 },
         { id: 2, text: '收藏', icon: 'mdi-star', role: 1 },
         { id: 3, text: '设置', icon: 'mdi-cog', role: 1 },
         { id: 4, text: '关于', icon: 'mdi-information-outline', role: 1 }
@@ -83,12 +85,12 @@ export default {
       switch (id) {
         case 0:
           this.$router.push({
-            path: '/manage'
+            path: '/articlemanage'
           })
           break
         case 1:
           this.$router.push({
-            path: '/detail'
+            path: '/usermanage'
           })
           break
         case 4:

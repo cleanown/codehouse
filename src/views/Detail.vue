@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div
+    class="home"
+    :style="{backgroundImage: 'url(' + bgUrl + ')',
+             backgroundSize: '100% 50%',
+             backgroundRepeat: 'no-repeat'}"
+  >
     <v-toolbar class="header">
       <v-btn icon @click="$router.go(-1)">
         <v-icon>mdi-chevron-left</v-icon>
@@ -29,7 +34,9 @@
             <img class="box-item-img" :src="item.imgUrl" alt="图片加载失败"/>
           </div>
         </div>
-        <div class="release-time">更新时间：{{companydetail.meta.updateAt}}</div>
+        <div class="container-time">
+          <div class="release-time">更新时间：{{companydetail.meta.updateAt}}</div>
+        </div>
       </div>
     </div>
 
@@ -114,6 +121,7 @@ export default {
   name: 'detail',
   data () {
     return {
+      bgUrl: this.$route.query.bgUrl,
       companydetail: {},
       title: '详情',
       timeout: 1000,
@@ -205,11 +213,13 @@ export default {
       const res = await this.$http.put(url, data)
       if (res.data.code === 200) {
         if (this.companydetail.isverify) {
+          this.bgUrl = require('../assets/pass.png')
           this.snackbar = true
           this.text = '下架成功'
         } else {
           this.snackbar = true
           this.text = '审核通过'
+          this.bgUrl = require('../assets/adopt.png')
         }
         this.apiGetdata()
       } else {
@@ -245,92 +255,99 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.adminmg{
-  position: fixed;
-  margin-top: 56px;
-  padding-top: 15px;
-  padding-right: 10px;
-  width: 100%;
-  .adminmg-item{
-    display: flex;
-    margin-right: 20px;
+.home{
+  .adminmg{
+    position: fixed;
+    margin-top: 56px;
+    padding-top: 15px;
+    padding-right: 10px;
     width: 100%;
-    justify-content: flex-end;
-  }
-}
-.alertshow{
-  margin-top: 56px;
-}
-.alert{
-  position: fixed;
-  width: 95%;
-  margin: 0 2.5%;
-  top: 56px;
-  opacity: 0.9;
-}
-.header{
-  position: fixed;
-  width: 100%
-}
-.container{
-  margin-top: 56px;
-  padding: 20px;
-  background: #fff;
-  .container-detail{
-    .container-head{
-      font-size: 20px;
-      font-weight: bolder;
-    }
-    .container-desc{
-      text-indent: 2em;
-      margin: 0 5px;
-    }
-    .box{
+    .adminmg-item{
       display: flex;
-      flex-wrap: wrap;
+      margin-right: 20px;
       width: 100%;
-      .box-item{
-        width: 33%;
-        padding: 1%;
-        .box-item-img{
-          width: 100%;
-          height: 100%;
+      justify-content: flex-end;
+    }
+  }
+  .alertshow{
+    margin-top: 56px;
+  }
+  .alert{
+    position: fixed;
+    width: 95%;
+    margin: 0 2.5%;
+    top: 56px;
+    opacity: 0.9;
+  }
+  .header{
+    position: fixed;
+    width: 100%
+  }
+  .container{
+    margin-top: 56px;
+    padding: 20px;
+    .container-detail{
+      .container-head{
+        font-size: 20px;
+        font-weight: bolder;
+      }
+      .container-desc{
+        text-indent: 2em;
+        margin: 0 5px;
+      }
+      .box{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        .box-item{
+          width: 33%;
+          padding: 1%;
+          .box-item-img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+      .container-time{
+        margin-top: 10px;
+        padding-right: 10px;
+        width: 100%;
+        height: 30px;
+        .release-time{
+          float: right;
+          line-height: 30px;
         }
       }
     }
-    .release-time{
-      float: right;
-      margin-right: 20px;
+  }
+  .opinion{
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    background: #fff;
+    width: 100%;
+    height: 56px;
+    color: #000;
+    align-items: center;
+    .tips{
+      display: flex;
+      margin-right: 15px;
+      align-items: center;
     }
   }
-}
-.opinion{
-  position: fixed;
-  bottom: 0;
-  background: #FFF;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  height: 56px;
-  color: #000;
-  align-items: center;
-  .tips{
+  .dialogue{
+    position: fixed;
     display: flex;
-    margin-right: 15px;
+    width: 100%;
+    height: 56px;
+    background: #B39DDB;
+    bottom: 0;
     align-items: center;
-  }
-}
-.dialogue{
-  position: fixed;
-  display: flex;
-  width: 100%;
-  height: 56px;
-  background: #B39DDB;
-  bottom: 0;
-  align-items: center;
-  padding: 0 10px;
-  .dialogue-message{
-    margin-left: 10px;
+    padding: 0 10px;
+    .dialogue-message{
+      margin-left: 10px;
+    }
   }
 }
 </style>

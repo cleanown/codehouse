@@ -6,7 +6,7 @@
       class="header"
     >
       <v-icon style="margin-right: 10px" @click="handleBackClick">mdi-chevron-left</v-icon>
-      <v-toolbar-title>发文管理</v-toolbar-title>
+      <v-toolbar-title>用户管理</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-icon @click.stop="drawer = !drawer">mdi-sort</v-icon>
     </v-app-bar>
@@ -126,9 +126,9 @@
 
 <script>
 import config from '../request/config'
-import AdminMg from '../components/manage/adminmg'
+import AdminMg from '../components/manage/articlemg'
 export default {
-  name: 'manage',
+  name: 'useremanage',
   data () {
     return {
       drawer: null,
