@@ -30,18 +30,21 @@
         :key="index"
         class="list"
         style="border-bottom: 1px solid #eee"
+        @click="$router.push({path: '/userinfo'})"
       >
-        <v-list-item-icon>
-          <v-img src="@/assets/img/1.jpg"></v-img>
-        </v-list-item-icon>
+        <v-list-item-avatar>
+          <v-img src="../../assets/imgs/1.jpg"></v-img>
+        </v-list-item-avatar>
 
         <v-list-item-content>
           <v-list-item-title v-text="item.username"></v-list-item-title>
         </v-list-item-content>
 
-        <v-list-item-avatar size="80" height="40">
-          <v-list-item-title v-text="item.role"></v-list-item-title>
-        </v-list-item-avatar>
+        <v-list-item-action size="80" height="40">
+          <span v-if="item.role === 1">普通用户</span>
+          <span v-if="item.role === 2">超级管理员</span>
+          <!-- <v-list-item-title v-text="item.role"></v-list-item-title> -->
+        </v-list-item-action>
       </v-list-item>
     </v-list>
 
@@ -85,18 +88,7 @@ export default {
       }]
     }
   },
-  mounted () {
-    this.userAdmin()
-  },
   methods: {
-    userAdmin () {
-      if (this.userlist.role === 1) {
-        this.userlist.role = '普通用户'
-        console.log(this.userlist.role)
-      } else {
-        this.userlist.role = '超级管理员'
-      }
-    },
     handleSearchClick () {
       console.log('111')
     }

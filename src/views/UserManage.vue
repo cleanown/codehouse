@@ -5,7 +5,7 @@
       dark
       class="header"
     >
-      <v-icon style="margin-right: 10px" @click="handleBackClick">mdi-chevron-left</v-icon>
+      <v-icon style="margin-right: 10px" @click="$router.go(-1)">mdi-chevron-left</v-icon>
       <v-toolbar-title>用户管理</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-icon @click.stop="drawer = !drawer">mdi-sort</v-icon>
@@ -56,9 +56,6 @@ export default {
     UserMg
   },
   methods: {
-    handleBackClick () {
-      this.$router.go(-1)
-    },
     changeValue (val) {
       this.searchValue = val
       this.page = 1
