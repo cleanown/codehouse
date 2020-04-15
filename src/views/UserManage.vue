@@ -8,7 +8,9 @@
       <v-icon style="margin-right: 10px" @click="$router.go(-1)">mdi-chevron-left</v-icon>
       <v-toolbar-title>用户管理</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-icon @click.stop="drawer = !drawer">mdi-sort</v-icon>
+      <v-btn icon @click="$router.push({path: '/'})">
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <user-mg />

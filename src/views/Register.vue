@@ -50,9 +50,9 @@
           large
           color="primary"
           class="login-btn"
-          @click="handleRestartClick"
+          @click="handleRegisterClick"
           >
-          重置
+          注册
         </v-btn>
       </p>
       <v-btn
@@ -61,9 +61,9 @@
         large
         color="primary"
         class="login-btn"
-        @click="handleRegisterClick"
+        @click="handleRestartClick"
         >
-        注册
+        重置
       </v-btn>
     </div>
     <div class="register">
@@ -99,17 +99,6 @@ export default {
       snackbar: false,
       text: '',
       timeout: 2000
-    }
-  },
-  watch: {
-    username (val) {
-      console.log(val)
-    },
-    password (val) {
-      console.log(val)
-    },
-    repwd (val) {
-      console.log(val)
     }
   },
   methods: {

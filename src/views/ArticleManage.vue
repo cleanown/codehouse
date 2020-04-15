@@ -110,6 +110,7 @@
       v-model="snackbar"
       top
       :timeout="timeout"
+      :color="snackcolor"
       class='tips'
     >
       {{ text }}
@@ -142,6 +143,7 @@ export default {
       isverify: false,
       isdelete: false,
       snackbar: false,
+      snackcolor: '#999',
       text: '',
       timeout: 2000,
       searchValue: '',

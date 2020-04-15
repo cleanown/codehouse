@@ -127,8 +127,8 @@ export default {
       timeout: 1000,
       messageshow: false,
       snackbar: false,
-      snackcolor: '#ccc',
-      text: '取消收藏',
+      snackcolor: '#999',
+      text: '',
       styledialogue: { color: '#757575' },
       styleFabulous: { color: '#757575' },
       message: '',
@@ -182,7 +182,6 @@ export default {
       const res = await this.$http.get(url, obj)
       if (res.data.code === 200) {
         this.companydetail = res.data.data
-        console.log(this.companydetail)
       }
     },
     async handleDeleteClick () {

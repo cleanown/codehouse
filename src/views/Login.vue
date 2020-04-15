@@ -21,7 +21,8 @@
         >
       </v-text-field></p>
       <p class="login-desc">
-        密码: <v-text-field
+        密码:
+        <!-- <v-text-field
         clearable
         label="输入6-16位数字/字母/符号"
         type="password"
@@ -30,7 +31,18 @@
         @mouseout="pwdOutActive"
         @keyup.enter="handleLoginClick"
         >
-      </v-text-field></p>
+        </v-text-field> -->
+        <v-text-field
+          v-model="password"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules.required, rules.min, rules.max]"
+          :type="show ? 'text' : 'password'"
+          label="输入6-16位数字/字母/符号"
+          counter
+          @keyup.enter="handleLoginClick"
+          @click:append="show = !show"
+        ></v-text-field>
+      </p>
       <v-btn
         block
         depressed
@@ -72,6 +84,12 @@ export default {
     return {
       username: '',
       password: '',
+      show: false,
+      rules: {
+        required: value => !!value || '密码不能为空',
+        min: v => v.length >= 6 || '密码少于6位',
+        max: v => v.length <= 16 || '密码长度超过限制'
+      },
       snackbar: false,
       text: '',
       timeout: 2000
@@ -84,18 +102,18 @@ export default {
     handleBackClick () {
       this.$router.go(-1)
     },
-    pwdOutActive () {
-      const countsReg = /^.{4,16}$/
-      const letterReg = /^(?![A-Za-z]+$)*(?![0-9]+$)*/
-      if (!countsReg.test(this.password)) {
-        this.snackbar = true
-        this.text = '请输入4-16位密码'
-      } else if (!letterReg.test(this.password)) {
-        this.snackbar = true
-        this.text = '密码需有字母和数字组合'
-      }
-      return true
-    },
+    // pwdOutActive () {
+    //   const countsReg = /^.{4,16}$/
+    //   const letterReg = /^(?![A-Za-z]+$)*(?![0-9]+$)*/
+    //   if (!countsReg.test(this.password)) {
+    //     this.snackbar = true
+    //     this.text = '请输入4-16位密码'
+    //   } else if (!letterReg.test(this.password)) {
+    //     this.snackbar = true
+    //     this.text = '密码需有字母和数字组合'
+    //   }
+    //   return true
+    // },
     handleLoginClick () {
       const url = `${config.online}/user/login`
       console.log(url)
