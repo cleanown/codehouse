@@ -91,18 +91,7 @@ export default {
   components: {
     UserDetail
   },
-  mounted: {
-    dialog () {
-      this.dialogJudge()
-    }
-  },
   methods: {
-    dialogJudge () {
-      if (this.$store.state.userinfo.role === 1) {
-        console.log(this.$store.state.userinfo)
-        this.dialog = false
-      }
-    },
     User () {
       this.admin = false
       this.dialog = true

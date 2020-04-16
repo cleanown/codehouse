@@ -2,7 +2,7 @@
   <div class="home">
     <div class="headerArea">
       <v-text-field
-        label="输入待审核的公司"
+        label="输入待审核的文章"
         prepend-inner-icon="mdi-cloud-search-outline"
         solo
         v-model="searchvalue"
