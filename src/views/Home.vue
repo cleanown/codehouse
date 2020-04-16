@@ -1,7 +1,7 @@
 <template>
   <div class="home">
 
-    <search-area />
+    <article-search />
 
     <v-bottom-navigation
       v-model="bottomNav"
@@ -17,7 +17,7 @@
 
       <v-btn value="release" icon>
         <span>发布</span>
-        <v-icon>mdi-newspaper</v-icon>
+        <v-icon>mdi-clipboard-plus-outline</v-icon>
       </v-btn>
 
       <v-btn value="user" icon>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import SearchArea from '../components/search/search'
+import ArticleSearch from '../components/search/articlesearch'
 export default {
   name: 'Home',
   data () {
@@ -38,7 +38,7 @@ export default {
     }
   },
   components: {
-    SearchArea
+    ArticleSearch
   },
   watch: {
     bottomNav (val, oldVal) {

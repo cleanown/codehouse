@@ -126,8 +126,8 @@
 </template>
 
 <script>
-import config from '../request/config'
-import ArticleMg from '../components/manage/articlemg'
+import config from '../../request/config'
+import ArticleMg from '../../components/admin/articlemg'
 export default {
   name: 'articlemanage',
   data () {

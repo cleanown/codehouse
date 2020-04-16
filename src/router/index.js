@@ -18,12 +18,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/Login')
+    component: () => import('../views/user/Login')
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('../views/Register')
+    component: () => import('../views/user/Register')
   },
   {
     path: '/release',
@@ -36,24 +36,29 @@ const routes = [
     component: () => import('../views/About')
   },
   {
-    path: '/detail',
-    name: 'detail',
-    component: () => import('../views/Detail')
+    path: '/articledetail',
+    name: 'articledetail',
+    component: () => import('../views/user/ArticleDetail')
   },
   {
     path: '/articlemanage',
     name: 'articlemanage',
-    component: () => import('../views/ArticleManage')
+    component: () => import('../views/admin/ArticleManage')
   },
   {
     path: '/usermanage',
     name: 'usermanage',
-    component: () => import('../views/UserManage')
+    component: () => import('../views/admin/UserManage')
   },
   {
     path: '/userinfo',
     name: 'userinfo',
-    component: () => import('../views/UserInfo')
+    component: () => import('../views/user/UserInfo')
+  },
+  {
+    path: '/userarticle',
+    name: 'userarticle',
+    component: () => import('../views/user/UserArticle')
   }
 ]
 

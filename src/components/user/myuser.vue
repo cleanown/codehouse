@@ -22,7 +22,7 @@
           <div class="boxitem-num">22</div>
           <div class="boxitem-desc">评论</div>
         </div>|
-        <div class="boxitem" @click="$router.push({path: '/articlemanage'})">
+        <div class="boxitem" @click="$router.push({path: '/userarticle'})">
           <div class="boxitem-num">3</div>
           <div class="boxitem-desc">我的文章</div>
         </div>

@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import config from '../request/config'
+import config from '../../request/config'
 export default {
   name: 'register',
   data () {

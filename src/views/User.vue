@@ -25,7 +25,7 @@
 
       <v-btn value="release" icon>
         <span>发布</span>
-        <v-icon>mdi-newspaper</v-icon>
+        <v-icon>mdi-clipboard-plus-outline</v-icon>
       </v-btn>
 
       <v-btn value="user" icon>

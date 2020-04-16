@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import UserDetail from '../components/user/userdetail'
+import UserDetail from '../../components/user/userdetail'
 export default {
   name: 'userinfo',
   data () {

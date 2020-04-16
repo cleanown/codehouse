@@ -56,7 +56,7 @@
 <script>
 import config from '../../request/config'
 export default {
-  name: 'searchArea',
+  name: 'articlesearch',
   data () {
     return {
       searchvalue: '',
@@ -94,7 +94,7 @@ export default {
     },
     goDetail (id) {
       this.$router.push({
-        path: '/detail',
+        path: '/articledetail',
         query: {
           id
         }

@@ -13,7 +13,7 @@
       </v-btn>
     </v-app-bar>
 
-    <user-mg />
+    <user-mg  />
 
     <div class="footer">
       <v-pagination
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import UserMg from '../components/user/usermg'
+import UserMg from '../../components/admin/usermg'
 export default {
   name: 'useremanage',
   data () {
@@ -56,12 +56,6 @@ export default {
   },
   components: {
     UserMg
-  },
-  methods: {
-    changeValue (val) {
-      this.searchValue = val
-      this.page = 1
-    }
   }
 }
 </script>

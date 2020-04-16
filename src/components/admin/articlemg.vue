@@ -2,7 +2,7 @@
   <div class="home">
     <div class="headerArea">
       <v-text-field
-        label="输入待审核的文章"
+        label="输入文章相关信息"
         prepend-inner-icon="mdi-cloud-search-outline"
         solo
         v-model="searchvalue"
@@ -80,7 +80,7 @@ export default {
     },
     handleDetailClick (id) {
       this.$router.push({
-        path: '/detail',
+        path: '/articledetail',
         query: {
           id,
           bgUrl: require('../../assets/wait.png')
