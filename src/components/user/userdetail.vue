@@ -9,17 +9,18 @@
     </div>
 
     <div class="infos">
-      <h3>用户名：</h3>
+      <h3>用户名：
+        <div style="float: right">
+          <v-icon @click="readonly = !readonly" v-if="!readonly" color="error">mdi-close</v-icon>
+          <v-icon @click="readonly = !readonly" v-else color="success">mdi-pencil</v-icon>
+        </div>
+      </h3>
       <v-text-field
         label="cleanown"
         single-line
         :readonly="readonly"
         clearable
       >
-        <template v-slot:append-outer>
-          <v-icon @click="readonly = !readonly" v-if="!readonly">mdi-close</v-icon>
-          <v-icon @click="readonly = !readonly" v-else>mdi-pencil</v-icon>
-        </template>
       </v-text-field>
       <h3>密码：</h3>
       <v-text-field
@@ -28,10 +29,6 @@
         :readonly="readonly"
         clearable
       >
-        <template v-slot:append-outer>
-          <v-icon @click="readonly = !readonly" v-if="!readonly">mdi-close</v-icon>
-          <v-icon @click="readonly = !readonly" v-else>mdi-pencil</v-icon>
-        </template>
       </v-text-field>
       <h3>手机号/邮箱：</h3>
       <v-text-field
@@ -40,10 +37,6 @@
         :readonly="readonly"
         clearable
       >
-        <template v-slot:append-outer>
-          <v-icon @click="readonly = !readonly" v-if="!readonly">mdi-close</v-icon>
-          <v-icon @click="readonly = !readonly" v-else>mdi-pencil</v-icon>
-        </template>
       </v-text-field>
       <h3>性别：</h3>
       <v-radio-group v-model="radios" :mandatory="false">

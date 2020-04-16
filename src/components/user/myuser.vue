@@ -2,7 +2,7 @@
   <div class="home">
 
     <div class="navtop">
-      <div class="header">
+      <div class="heads">
         <div class="head">
           <v-img class="head-img"
             :src="this.$store.state.userinfo.headimg"
@@ -11,7 +11,6 @@
         </div>
         <div>
           <div class="username">{{this.$store.state.userinfo.username}}</div>
-          <div>邮箱：cleanown@outlook.com</div>
         </div>
       </div>
       <div class="box">
@@ -116,7 +115,7 @@ export default {
   margin-bottom: 56px;
   .navtop{
     background: rgb(225, 239, 252);
-    .header{
+    .heads{
       display: flex;
       padding: 20px;
       .head{
@@ -128,7 +127,7 @@ export default {
         border-radius: 34px;
       }
       .username{
-        line-height: 40px;
+        line-height: 68px;
         font-size: 22px;
         font-weight: bolder;;
       }
