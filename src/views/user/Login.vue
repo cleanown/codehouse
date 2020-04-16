@@ -13,9 +13,10 @@
     <div class="login">
       <p class="login-title">Code House</p>
       <p class="login-desc">
-        用户名：<v-text-field
+        用户名：
+      <v-text-field
         clearable
-        label="输入你的昵称"
+        label="输入昵称"
         hide-details="auto"
         v-model="username"
         >

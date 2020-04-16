@@ -13,7 +13,7 @@
       </v-btn>
     </v-app-bar>
 
-    <user-mg  />
+    <user-mg :userlist="userlist" :wait="wait" @changeValue="changeValue" />
 
     <div class="footer">
       <v-pagination
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import config from '../../request/config'
 import UserMg from '../../components/admin/usermg'
 export default {
   name: 'useremanage',
@@ -51,11 +52,35 @@ export default {
       snackbar: false,
       text: '',
       timeout: 2000,
-      searchValue: ''
+      searchValue: '',
+      userlist: [],
+      wait: ''
     }
   },
   components: {
     UserMg
+  },
+  mounted () {
+    this.UsermgDataGet()
+  },
+  methods: {
+    async UsermgDataGet () {
+      const url = `${config.online}/user/getalluser`
+      const res = await this.$http.get(url)
+      if (res.data.code === 200) {
+        this.userlist = res.data.data.users
+        this.wait = false
+        // console.log(this.userlist)
+      } else {
+        this.snackbar = true
+        this.text = res.data.msg
+      }
+    },
+    changeValue (val) {
+      this.searchValue = val
+      this.page = 1
+      console.log(this.searchValue)
+    }
   }
 }
 </script>

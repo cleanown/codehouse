@@ -26,7 +26,7 @@ export default {
         this.$store.commit('userinfo', (res.data.data))
       } else {
         this.snackbar = true
-        this.text = res.msg
+        this.text = res.data.msg
         this.login = true
       }
     }

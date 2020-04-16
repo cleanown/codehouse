@@ -30,10 +30,10 @@
         :key="index"
         class="list"
         style="border-bottom: 1px solid #eee"
-        @click="$router.push({path: '/userinfo'})"
+        @click="userinfoClick(item)"
       >
         <v-list-item-avatar>
-          <v-img src="../../assets/imgs/1.jpg"></v-img>
+          <v-img :src="item.headimg"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>
@@ -42,7 +42,7 @@
 
         <v-list-item-action size="80" height="40">
           <span v-if="item.role === 1">普通用户</span>
-          <span v-if="item.role === 2">超级管理员</span>
+          <span v-if="item.role === 2">管理员</span>
           <!-- <v-list-item-title v-text="item.role"></v-list-item-title> -->
         </v-list-item-action>
       </v-list-item>
@@ -66,31 +66,29 @@
 <script>
 export default {
   name: 'usermg',
+  props: {
+    userlist: Array,
+    wait: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
-      searchvalue: '',
-      wait: false,
-      userlist: [{
-        username: 'claennasdf',
-        role: 1
-      }, {
-        username: 'aaaa',
-        role: 1
-      }, {
-        username: 'dddd',
-        role: 2
-      }, {
-        username: 'cffff',
-        role: 2
-      }, {
-        username: 'ccccf',
-        role: 1
-      }]
+      searchvalue: ''
     }
   },
   methods: {
     handleSearchClick () {
-      console.log('111')
+      this.$emit('changeValue', (this.searchvalue))
+    },
+    userinfoClick (userinfo) {
+      this.$router.push({
+        path: '/userinfo',
+        query: {
+          userinfo
+        }
+      })
     }
   }
 }
@@ -113,6 +111,13 @@ export default {
   }
   .searchlist{
     margin-top: 56px;
+  }
+  .wait{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 260px;
   }
 }
 </style>
