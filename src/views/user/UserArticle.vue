@@ -8,12 +8,18 @@
       <v-icon style="margin-right: 10px" @click="$router.go(-1)">mdi-chevron-left</v-icon>
       <v-toolbar-title>我的文章</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn icon v-if="order" @click="order = false">
+        <v-icon>mdi-sort-ascending</v-icon>
+      </v-btn>
+      <v-btn icon v-else @click="order = true">
+        <v-icon>mdi-sort-descending</v-icon>
+      </v-btn>
       <v-btn icon @click="$router.push({path: '/'})">
         <v-icon>mdi-home</v-icon>
       </v-btn>
     </v-app-bar>
 
-    <my-article />
+    <my-article :order="order" />
 
     <v-snackbar
       v-model="snackbar"
@@ -41,17 +47,12 @@ export default {
     return {
       snackbar: false,
       text: '',
-      timeout: 2000
+      timeout: 2000,
+      order: true
     }
   },
   components: {
     MyArticle
-  },
-  methods: {
-    changeValue (val) {
-      this.searchValue = val
-      this.page = 1
-    }
   }
 }
 </script>

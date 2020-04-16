@@ -7,6 +7,7 @@
       v-model="bottomNav"
       class="nav"
       grow
+      fixed
       app
       color="deep-purple"
     >

@@ -85,15 +85,15 @@
             </v-date-picker>
           </v-menu>
         </div>
-      </div>
-      <div class="drawer-btn">
-        <v-btn
-          width="100%"
-          color="primary"
-          @click="handleSelectClick"
-        >
-          确认
-        </v-btn>
+        <div class="drawer-btn">
+          <v-btn
+            width="100%"
+            color="primary"
+            @click="handleSelectClick"
+          >
+            确认
+          </v-btn>
+        </div>
       </div>
     </v-navigation-drawer>
 
@@ -229,9 +229,9 @@ export default {
   }
 }
 .drawer-btn{
-  position: fixed;
   width: 100%;
   padding: 0 50px;
+  margin-top: 40px;
   margin-bottom: 40px;
   bottom: 0;
 }

@@ -114,8 +114,8 @@
 </template>
 
 <script>
-import config from '../../request/config'
-import Comment from '../../components/detail/comment'
+import config from '../request/config'
+import Comment from '../components/detail/comment'
 import { mapState } from 'vuex'
 export default {
   name: 'detail',
@@ -133,26 +133,26 @@ export default {
       styleFabulous: { color: '#757575' },
       message: '',
       sendmessage: [{
-        headImgUrl: require('../../assets/logo.png'),
+        headImgUrl: require('../assets/logo.png'),
         name: 'cleanown',
         desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了'
       }, {
-        headImgUrl: require('../../assets/logo.png'),
+        headImgUrl: require('../assets/logo.png'),
         name: 'cleanown',
         desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了'
       }],
       num: 5,
       detailimg: [
-        { imgUrl: require('../../assets/a1.png') },
-        { imgUrl: require('../../assets/a2.png') },
-        { imgUrl: require('../../assets/a3.png') },
-        { imgUrl: require('../../assets/a4.png') },
-        { imgUrl: require('../../assets/a5.png') },
-        { imgUrl: require('../../assets/a6.png') },
-        { imgUrl: require('../../assets/a7.png') },
-        { imgUrl: require('../../assets/2.jpg') },
-        { imgUrl: require('../../assets/a1.png') },
-        { imgUrl: require('../../assets/a1.png') }
+        { imgUrl: require('../assets/a1.png') },
+        { imgUrl: require('../assets/a2.png') },
+        { imgUrl: require('../assets/a3.png') },
+        { imgUrl: require('../assets/a4.png') },
+        { imgUrl: require('../assets/a5.png') },
+        { imgUrl: require('../assets/a6.png') },
+        { imgUrl: require('../assets/a7.png') },
+        { imgUrl: require('../assets/2.jpg') },
+        { imgUrl: require('../assets/a1.png') },
+        { imgUrl: require('../assets/a1.png') }
       ],
       releaseTime: '2020-4-12'
     }
@@ -212,13 +212,13 @@ export default {
       const res = await this.$http.put(url, data)
       if (res.data.code === 200) {
         if (this.companydetail.isverify) {
-          this.bgUrl = require('../../assets/pass.png')
+          this.bgUrl = require('../assets/pass.png')
           this.snackbar = true
           this.text = '下架成功'
         } else {
           this.snackbar = true
           this.text = '审核通过'
-          this.bgUrl = require('../../assets/adopt.png')
+          this.bgUrl = require('../assets/adopt.png')
         }
         this.apiGetdata()
       } else {
@@ -242,7 +242,7 @@ export default {
     },
     sendClick () {
       const a = {
-        headImgUrl: require('../../assets/logo.png'),
+        headImgUrl: require('../assets/logo.png'),
         name: 'cleanown',
         desc: this.message
       }
