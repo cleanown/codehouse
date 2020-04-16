@@ -30,47 +30,11 @@
         clearable
       >
       </v-text-field>
-      <h3>手机号/邮箱：</h3>
-      <v-text-field
-        label="123456789@qq.com"
-        single-line
-        :readonly="readonly"
-        clearable
-      >
-      </v-text-field>
       <h3>性别：</h3>
       <v-radio-group v-model="radios" :mandatory="false">
         <v-radio label="男" value="male"></v-radio>
         <v-radio label="女" value="female"></v-radio>
       </v-radio-group>
-      <h3>出生日期</h3>
-      <v-menu
-        ref="menu"
-        v-model="menu"
-        :close-on-content-click="false"
-        :return-value.sync="date"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            v-model="date"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="date"
-          no-title scrollable
-          :max="dateNow"
-        >
-          <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="menu = false">取消</v-btn>
-          <v-btn text color="primary" @click="$refs.menu.save(date)">确认</v-btn>
-        </v-date-picker>
-      </v-menu>
     </div>
 
     <div class="btn">

@@ -3,7 +3,7 @@
     <v-app-bar
       color="deep-purple"
       dark
-      class="header"
+      class="headers"
     >
       <v-icon style="margin-right: 10px" @click="$router.go(-1)">mdi-chevron-left</v-icon>
       <v-toolbar-title>用户信息</v-toolbar-title>
@@ -20,6 +20,39 @@
     </v-app-bar>
 
     <user-detail />
+
+    <v-dialog
+      v-model="dialog"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">提示！！！</v-card-title>
+
+        <v-card-text class="infors">
+          {{ adminuser }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            取消
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            确定
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-snackbar
       v-model="snackbar"
@@ -50,33 +83,54 @@ export default {
       snackbar: false,
       timeout: 2000,
       snackcolor: '#999',
-      text: ''
+      text: '',
+      dialog: '',
+      adminuser: ''
     }
   },
   components: {
     UserDetail
   },
+  mounted: {
+    dialog () {
+      this.dialogJudge()
+    }
+  },
   methods: {
+    dialogJudge () {
+      if (this.$store.state.userinfo.role === 1) {
+        console.log(this.$store.state.userinfo)
+        this.dialog = false
+      }
+    },
     User () {
       this.admin = false
-      this.snackbar = true
-      this.text = '降为普通用户'
+      this.dialog = true
+      this.adminuser = '将该用户降为普通用户？'
     },
     Admin () {
       this.admin = true
-      this.snackbar = true
-      this.text = '升为管理员'
+      this.dialog = true
+      this.adminuser = '将该用户升为超级管理员？'
     }
   }
 }
 </script>
 
 <style lang="scss">
-.header{
+.headers{
   position: fixed;
   z-index: 3;
 }
 .alertshow{
   margin-top: 56px;
+}
+.headline{
+  color: rgb(226, 33, 33);
+}
+.infors{
+  font-size: 16px;
+  line-height: 16px;
+  text-indent: 2rem;
 }
 </style>
