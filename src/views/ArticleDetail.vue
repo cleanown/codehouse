@@ -35,7 +35,8 @@
           </div>
         </div>
         <div class="container-time">
-          <div class="release-time">更新时间：{{companydetail.meta.updateAt}}</div>
+          <p class="release-time">作者：{{this.$store.state.userinfo.username}}</p>
+          <p class="release-time">更新时间：{{updateTime}}</p>
         </div>
       </div>
     </div>
@@ -154,7 +155,7 @@ export default {
         { imgUrl: require('../assets/a1.png') },
         { imgUrl: require('../assets/a1.png') }
       ],
-      releaseTime: '2020-4-12'
+      updateTime: ''
     }
   },
   components: {
@@ -182,6 +183,10 @@ export default {
       const res = await this.$http.get(url, obj)
       if (res.data.code === 200) {
         this.companydetail = res.data.data
+        this.updateTime = res.data.data.meta.updateAt
+        this.updateTime = this.$moment(this.updateTime).format('lll')
+        console.log(this.companydetail)
+        console.log(this.updateTime)
       }
     },
     async handleDeleteClick () {
@@ -311,9 +316,10 @@ export default {
         margin-top: 10px;
         padding-right: 10px;
         width: 100%;
-        height: 30px;
+        height: 60px;
         .release-time{
-          float: right;
+          width: 100%;
+          text-align: right;
           line-height: 30px;
         }
       }

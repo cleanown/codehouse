@@ -123,7 +123,7 @@ export default {
   color: rgb(247, 18, 18);
 }
 .infors{
-  font-size: 25px;
+  font-size: 16px;
   line-height: 25px;
   text-indent: 2rem;
 }

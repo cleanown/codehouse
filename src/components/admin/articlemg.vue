@@ -39,7 +39,6 @@
         <v-list-item-content>
           <v-list-item-title v-text="item.companyname"></v-list-item-title>
         </v-list-item-content>
-
         <v-list-item-avatar size="80" height="40">
           <v-list-item-title v-text="item.city"></v-list-item-title>
         </v-list-item-avatar>

@@ -66,11 +66,18 @@ export default {
   methods: {
     async UsermgDataGet () {
       const url = `${config.online}/user/getalluser`
-      const res = await this.$http.get(url)
+      const data = {
+        params: {
+          hotkey: this.searchValue
+        }
+      }
+      const res = await this.$http.get(url, data)
+      // console.log(res)
       if (res.data.code === 200) {
         this.userlist = res.data.data.users
         this.wait = false
-        // console.log(this.userlist)
+        this.page = res.data.data.page
+        this.pagetotal = res.data.data.pageTotle
       } else {
         this.snackbar = true
         this.text = res.data.msg
@@ -78,8 +85,8 @@ export default {
     },
     changeValue (val) {
       this.searchValue = val
-      this.page = 1
-      console.log(this.searchValue)
+      this.UsermgDataGet()
+      // console.log(this.searchValue)
     }
   }
 }
