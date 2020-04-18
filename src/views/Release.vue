@@ -30,11 +30,12 @@
         <v-file-input
           :rules="rules"
           accept="image/png, image/jpeg, image/bmp"
-          placeholder="Pick an avatar"
+          placeholder="选择图片"
           prepend-icon="mdi-camera"
-          label="Avatar"
           v-model="imgs"
+          @change="imgPost"
         ></v-file-input>
+        <v-img :src="imgUrl" />
       <div class="city">
         <p>地址：</p>
         <div class="d-flex">
@@ -108,11 +109,12 @@ export default {
       companyname: '',
       companydetail: '',
       imgs: [],
+      imgUrl: '',
       province: '',
       city: '',
       address: '',
       rules: [
-        value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!'
+        value => !value || value.size < 2000000 || '图片质量应该小于 2 MB!'
       ],
       options: provinceAndCityData,
       snackbar: false,
@@ -127,7 +129,7 @@ export default {
     companydetail (val) {
       // console.log(val)
     },
-    imgUrl (val) {
+    imgs (val) {
       console.log(val)
     },
     search (val) {
@@ -204,6 +206,14 @@ export default {
           }
         })
       }
+    },
+    async imgPost () {
+      const formData = new FormData()
+      formData.append('file', this.imgs)
+      const url = `${config.online}/upload/img`
+      const res = await this.$http.post(url, formData)
+      console.log(res)
+      this.imgUrl = res.data.data.prefix
     }
   }
 }

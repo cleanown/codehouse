@@ -13,6 +13,10 @@
           </div>
           <p class="comment-desc">{{item.desc}}</p>
           <p class="comment-time">评论时间：{{item.momentTime}}</p>
+          <div style="font-size: 12px; background: #eee; padding: 5px">
+            <span style="color: blue">{{$store.state.userinfo.username}} 回复 adminn:</span>
+            <p style="text-indent: 2rem">是该砂咖啡的拉开水电费撒旦法开始发哈市收到反馈会卡死积分兑换</p>
+          </div>
         </div>
       </div>
     </div>

@@ -9,12 +9,19 @@
           v-for="(item, i) in article"
           :key="i"
         >
-          <v-card @click="goDetail(item._id)">
+          <v-card
+            @click="goDetail(item._id)"
+            color="#EEEEEE"
+          >
             <div class="heads">
-              <span class="titles">{{item.companyname}}</span><br>
-              <span class="datas">发布时间：{{$moment(item.meta.createAt).format('lll')}}</span>
+              <v-card-title class="titles">
+                {{item.companyname}}
+              </v-card-title>
+              <v-card-title class="datas">
+                发布时间：{{$moment(item.meta.createAt).format('lll')}}
+              </v-card-title>
             </div>
-            <v-card-text>
+            <v-card-text class="detail">
               {{item.companydetail}}
             </v-card-text>
           </v-card>
@@ -63,16 +70,21 @@ export default {
   .timeline{
     width: 100%;
     .heads{
-      background: #eee;
-      padding: 15px;
+      background: #B39DDB;
+      padding: 10px;
       .titles{
-        line-height: 18px;
-        font-size: 18px;
+        padding: 16px 16px 8px 16px;
+        line-height: 20px;
+        font-size: 20px;
         font-weight: bolder;
       }
       .datas{
         font-size: 12px;
+        padding: 0 16px;
       }
+    }
+    .detail{
+      text-indent: 2em;
     }
   }
 }
