@@ -12,6 +12,7 @@
             <div>{{item.name}}</div>
           </div>
           <p class="comment-desc">{{item.desc}}</p>
+          <p class="comment-time">评论时间：{{item.momentTime}}</p>
         </div>
       </div>
     </div>
@@ -66,8 +67,11 @@ export default {
     }
     .comment-desc{
       text-indent: 2em;
-      margin: 5px;
-      font-size: 14px;
+      word-break:break-all;
+    }
+    .comment-time{
+      width: 100%;
+      text-align: right;
     }
   }
 }

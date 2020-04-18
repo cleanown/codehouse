@@ -36,7 +36,7 @@
         </div>
         <div class="container-time">
           <p class="release-time">作者：{{this.$store.state.userinfo.username}}</p>
-          <p class="release-time">更新时间：{{updateTime}}</p>
+          <p class="release-time">发布时间：{{updateTime}}</p>
         </div>
       </div>
     </div>
@@ -74,19 +74,31 @@
       <v-btn icon style="margin-right: 7px" @click="messageshow = false">
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
-      <v-text-field
+      <!-- <v-text-field
         v-model="message"
         solo
         dense
         hide-details
         label="说点什么呗~"
         clearable
-      ></v-text-field>
+      >
+      </v-text-field> -->
+      <v-textarea
+        class="dialogue-message"
+        v-model="message"
+        background-color="#fff"
+        dense
+        hide-details
+        clearable
+        outlined
+        rows="1"
+        no-resize
+      ></v-textarea>
       <v-btn
         rounded
         color="deep-purple darken-2"
         style="color: #fff"
-        class="dialogue-message"
+        class="dialogue-btn"
         @click="sendClick"
         >
         发送
@@ -136,11 +148,8 @@ export default {
       sendmessage: [{
         headImgUrl: require('../assets/logo.png'),
         name: 'cleanown',
-        desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了'
-      }, {
-        headImgUrl: require('../assets/logo.png'),
-        name: 'cleanown',
-        desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了'
+        desc: '在跳转时页面的样式并没有加载，而是沿用了前一个页面的，或者前面已经加载过页面的样式。要是同样的样式，前面已经加载过了，浏览器在跳到下个页面相同的样式就不会再加载了',
+        momentTime: this.$moment(new Date()).format('lll')
       }],
       num: 5,
       detailimg: [
@@ -246,13 +255,21 @@ export default {
       }
     },
     sendClick () {
-      const a = {
-        headImgUrl: require('../assets/logo.png'),
-        name: 'cleanown',
-        desc: this.message
+      if (this.message === '') {
+        this.snackbar = true
+        this.text = '内容不得为空'
+      } else {
+        const a = {
+          headImgUrl: this.$store.state.userinfo.headimg,
+          name: this.$store.state.userinfo.username,
+          desc: this.message,
+          momentTime: this.$moment(new Date()).format('lll')
+        }
+        this.sendmessage.push(a)
+        this.message = ''
+        this.snackbar = true
+        this.text = '评论成功'
       }
-      this.sendmessage.push(a)
-      this.message = ''
     }
   }
 }
@@ -350,7 +367,7 @@ export default {
     bottom: 0;
     align-items: center;
     padding: 0 10px;
-    .dialogue-message{
+    .dialogue-btn{
       margin-left: 10px;
     }
   }

@@ -12,7 +12,7 @@
           <v-card @click="goDetail(item._id)">
             <div class="heads">
               <span class="titles">{{item.companyname}}</span><br>
-              <span class="datas">{{item.meta.createAt}}</span>
+              <span class="datas">发布时间：{{$moment(item.meta.createAt).format('lll')}}</span>
             </div>
             <v-card-text>
               {{item.companydetail}}
