@@ -265,7 +265,7 @@ export default {
           desc: this.message,
           momentTime: this.$moment(new Date()).format('lll')
         }
-        this.sendmessage.push(a)
+        this.sendmessage.unshift(a)
         this.message = ''
         this.snackbar = true
         this.text = '评论成功'
