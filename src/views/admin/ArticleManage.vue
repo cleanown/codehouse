@@ -169,7 +169,7 @@ export default {
       this.apidataGet()
     },
     handleSelectClick () {
-      this.beginTime = (this.begindate.slice(5, 7)) * 2592000000 + this.begindate.slice(8, 10) * 86400000
+      this.beginTime = this.begindate.getTime()
       this.endTime = (this.enddate.slice(5, 7)) * 2592000000 + this.enddate.slice(8, 10) * 86400000
       if (this.beginTime > this.endTime) {
         this.snackbar = true

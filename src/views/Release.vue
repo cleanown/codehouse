@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-toolbar class="header">
-      <v-btn icon @click="handleBackClick">
+      <v-btn icon @click="$router.go(-1)">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
       <v-toolbar-title>发布新内容</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click="handleHomeClick">
+      <v-btn icon @click="$router.push({path: '/'})">
         <v-icon>mdi-home</v-icon>
       </v-btn>
     </v-toolbar>
@@ -20,22 +20,26 @@
       </v-text-field>
       <p>内容：</p>
       <v-textarea
-          solo
-          name="input-7-4"
-          label="输入相关描述"
-          v-model="companydetail"
-          @mouseout="companydetailReg"
-        ></v-textarea>
-        <p>上传图片：</p>
-        <v-file-input
-          :rules="rules"
-          accept="image/png, image/jpeg, image/bmp"
-          placeholder="选择图片"
-          prepend-icon="mdi-camera"
-          v-model="imgs"
-          @change="imgPost"
-        ></v-file-input>
-        <v-img :src="imgUrl" />
+        solo
+        name="input-7-4"
+        label="输入相关描述"
+        v-model="companydetail"
+        @mouseout="companydetailReg"
+      ></v-textarea>
+      <p>上传图片：</p>
+      <v-file-input
+        :rules="rules"
+        accept="image/png, image/jpeg, image/bmp"
+        placeholder="选择图片"
+        prepend-icon="mdi-camera"
+        v-model="file"
+        @change="imgPost(file)"
+      ></v-file-input>
+      <div class="box">
+        <div class="box-item" v-for="(item, index) of detailimg" :key="index">
+          <img class="box-item-img" :src="item" alt="图片加载失败" @click="overlay = true" />
+        </div>
+      </div>
       <div class="city">
         <p>地址：</p>
         <div class="d-flex">
@@ -108,41 +112,28 @@ export default {
     return {
       companyname: '',
       companydetail: '',
-      imgs: [],
-      imgUrl: '',
+      file: [],
+      options: provinceAndCityData,
       province: '',
       city: '',
       address: '',
       rules: [
         value => !value || value.size < 2000000 || '图片质量应该小于 2 MB!'
       ],
-      options: provinceAndCityData,
       snackbar: false,
       text: '',
-      timeout: 2000
+      timeout: 2000,
+      detailimg: [],
+      absolute: false,
+      overlay: false
     }
   },
   watch: {
-    companyname (val) {
-      // console.log(val)
-    },
-    companydetail (val) {
-      // console.log(val)
-    },
-    imgs (val) {
+    file (val) {
       console.log(val)
-    },
-    search (val) {
-      val && val !== this.select && this.querySelections(val)
     }
   },
   methods: {
-    handleBackClick () {
-      this.$router.go(-1)
-    },
-    handleHomeClick () {
-      this.$router.push('/')
-    },
     handleChange (val) {
       console.log(val.label)
     },
@@ -171,12 +162,6 @@ export default {
       }
     },
     handlePostClick () {
-      console.log(this.companyname)
-      console.log(this.companydetail)
-      console.log(this.imgs)
-      console.log(this.province.label)
-      console.log(this.city.label)
-      console.log(this.address)
       if (!this.companyname) {
         this.snackbar = true
         this.text = '请输入公司名称'
@@ -207,13 +192,25 @@ export default {
         })
       }
     },
-    async imgPost () {
-      const formData = new FormData()
-      formData.append('file', this.imgs)
-      const url = `${config.online}/upload/img`
-      const res = await this.$http.post(url, formData)
-      console.log(res)
-      this.imgUrl = res.data.data.prefix
+    async imgPost (file) {
+      if (this.detailimg.length < 6) {
+        let imgUrl
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (e) => {
+          console.log(e)
+          imgUrl = e.target.result
+          this.detailimg.push(imgUrl)
+        }
+      } else {
+        this.snackbar = true
+        this.text = '上传图片不得超过5张'
+      }
+      // const formData = new FormData()
+      // formData.append('file', this.file)
+      // const url = `${config.online}/upload/img`
+      // const res = await this.$http.post(url, formData)
+      // console.log(res)
     }
   }
 }
@@ -239,6 +236,19 @@ export default {
     .cascader{
       width: 100%;
       margin-bottom: 20px;
+    }
+  }
+  .box{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    .box-item{
+      width: 33%;
+      padding: 1%;
+      .box-item-img{
+        width: 100%;
+        height: 100%;
+      }
     }
   }
   .containter-btn{
