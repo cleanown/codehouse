@@ -1,21 +1,8 @@
 <template>
   <div class="home">
-    <h3>本地时间：</h3>
-    <div>{{data1}}</div>
-    <h3>本地时间getTime()：</h3>
-    <div>{{data2}}</div>
-    <h3>toISOString时间：</h3>
-    <div>{{data3}}</div>
-    <h3>toISOString时间 -> 本地时间：</h3>
-    <div>{{data4}}</div>
-    <h3>toISOString时间 -> 本地时间 -> getTime：</h3>
-    <div>{{data5}}</div>
-    <v-btn
-      color="success"
-      @click="datachage"
-    >
-      测试
-    </v-btn>
+    <div class="box">
+      <input type="file" class="inputf">
+    </div>
   </div>
 </template>
 
@@ -24,19 +11,9 @@ export default {
   name: 'test',
   data () {
     return {
-      data1: new Date(),
-      data2: new Date().getTime(),
-      data3: new Date().toISOString().substr(0, 10),
-      data4: '',
-      data5: ''
     }
   },
   methods: {
-    datachage () {
-      this.data4 = this.$moment(this.data3)
-      this.data5 = new Date(new Date().toISOString().substr(0, 10)).getTime()
-      console.log(this.data4)
-    }
   }
 }
 </script>
@@ -45,9 +22,17 @@ export default {
 .home{
   width: 100%;
   padding: 20px;
-  overflow: hidden;
-  h3{
-    color: blue;
+  .box{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: burlywood;
+    .inputf{
+      width: 100%;
+      height: 100%;
+      display: none;
+      position: absolute;
+    }
   }
 }
 </style>
