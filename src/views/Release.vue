@@ -62,7 +62,8 @@
         <div class="inp">
           <v-file-input
             class="inp-file"
-            :rules="rules"
+            full-width
+            outlined
             accept="image/png, image/jpeg, image/bmp"
             v-model="file"
             @change="imgPost(file)"
@@ -147,9 +148,6 @@ export default {
       province: '',
       city: '',
       address: '',
-      rules: [
-        value => !value || value.size < 2000000 || '图片质量应该小于 2 MB!'
-      ],
       snackbar: false,
       text: '',
       timeout: 2000,
@@ -255,11 +253,11 @@ export default {
         this.snackbar = true
         this.text = '上传图片不得超过5张'
       }
-      // const formData = new FormData()
-      // formData.append('file', this.file)
-      // const url = `${config.online}/upload/img`
-      // const res = await this.$http.post(url, formData)
-      // console.log(res)
+      const formData = new FormData()
+      formData.append('file', this.file)
+      const url = `${config.online}/upload/img`
+      const res = await this.$http.post(url, formData)
+      console.log(res)
     }
   }
 }
@@ -296,14 +294,16 @@ export default {
       width: 32%;
       height: 32%;
       margin: 2px;
+      display: flex;
       .inp-img{
-        // width: 100%;
-        // height: 100%;
+        width: 100%;
+        height: 100%;
       }
       .inp-file{
         width: 100%;
         height: 100%;
-        // opacity: 0;
+        opacity: 0;
+        top: 32%;
         z-index: 3;
         position: absolute;
       }
