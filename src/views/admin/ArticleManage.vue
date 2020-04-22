@@ -169,8 +169,10 @@ export default {
       this.apidataGet()
     },
     handleSelectClick () {
-      this.beginTime = this.begindate.getTime()
+      this.beginTime = this.begindate
+      console.log(this.beginTime)
       this.endTime = (this.enddate.slice(5, 7)) * 2592000000 + this.enddate.slice(8, 10) * 86400000
+      console.log(this.endTime)
       if (this.beginTime > this.endTime) {
         this.snackbar = true
         this.text = '开始时间应小于结束时间'

@@ -206,9 +206,10 @@ export default {
         }
       }
       const res = await this.$http.delete(url, data)
+      console.log(res)
       if (res.data.code === 200) {
         this.snackbar = true
-        this.text = '删除成功'
+        this.text = res.data.msg
         setTimeout(() => {
           this.$router.go(-1)
         }, 500)

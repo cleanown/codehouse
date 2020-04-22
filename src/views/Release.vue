@@ -32,12 +32,41 @@
         accept="image/png, image/jpeg, image/bmp"
         placeholder="选择图片"
         prepend-icon="mdi-camera"
+        show-size
         v-model="file"
         @change="imgPost(file)"
       ></v-file-input>
       <div class="box">
-        <div class="box-item" v-for="(item, index) of detailimg" :key="index">
-          <img class="box-item-img" :src="item" alt="图片加载失败" @click="overlay = true" />
+        <div
+          class="box-item"
+          v-for="(item, index) of detailimg"
+          :key="index"
+        >
+          <v-overlay
+            :absolute="absolute"
+            :value="overlay"
+            width="100%"
+            height="100%"
+            @click="overlay = false"
+          >
+            <v-btn
+              color="#fff"
+              icon
+              v-model="item.index"
+              @click="ImgDelete(index)"
+            >
+              <v-icon>
+                mdi-delete-forever
+              </v-icon>
+            </v-btn>
+          </v-overlay>
+          <v-img
+            aspect-ratio="1"
+            class="box-item-img"
+            :src="item"
+            alt="图片加载失败"
+            @click="ImgUpdata(index)"
+          />
         </div>
       </div>
       <div class="city">
@@ -124,13 +153,21 @@ export default {
       text: '',
       timeout: 2000,
       detailimg: [],
-      absolute: false,
+      absolute: true,
       overlay: false
     }
   },
   watch: {
     file (val) {
       console.log(val)
+    },
+    overlay (val) {
+      console.log(val)
+      if (val === true) {
+        setTimeout(() => {
+          this.overlay = false
+        }, 2000)
+      }
     }
   },
   methods: {
@@ -161,7 +198,16 @@ export default {
         this.text = '输入长度过长'
       }
     },
-    handlePostClick () {
+    ImgUpdata (index) {
+      this.overlay = true
+      console.log(index)
+    },
+    ImgDelete (index) {
+      this.overlay = false
+      this.detailimg.splice(index, 1)
+      console.log(index)
+    },
+    async handlePostClick () {
       if (!this.companyname) {
         this.snackbar = true
         this.text = '请输入公司名称'
@@ -176,20 +222,22 @@ export default {
         this.text = '请输入详细地址'
       } else {
         const url = `${config.online}/company/add`
-        this.$http.post(url, {
+        const data = {
           companyname: this.companyname,
           companydetail: this.companydetail,
           province: this.province.label,
           city: this.city.label
-        }).then((res) => {
-          res = res.data
-          console.log(res)
-          if (res.code === 200) {
-            this.snackbar = true
-            this.text = '发布成功，等待审核'
-            this.$router.push('/user')
-          }
-        })
+        }
+        const res = await this.$http.post(url, data)
+        console.log(res)
+        if (res.data.code === 200) {
+          this.snackbar = true
+          this.text = res.data.msg
+          setTimeout(() => {
+            console.log('1500')
+            this.$router.push('/')
+          }, 2000)
+        }
       }
     },
     async imgPost (file) {
@@ -200,17 +248,17 @@ export default {
         reader.onload = (e) => {
           console.log(e)
           imgUrl = e.target.result
-          this.detailimg.push(imgUrl)
+          this.detailimg.unshift(imgUrl)
         }
       } else {
         this.snackbar = true
         this.text = '上传图片不得超过5张'
       }
-      // const formData = new FormData()
-      // formData.append('file', this.file)
-      // const url = `${config.online}/upload/img`
-      // const res = await this.$http.post(url, formData)
-      // console.log(res)
+      const formData = new FormData()
+      formData.append('file', this.file)
+      const url = `${config.online}/upload/img`
+      const res = await this.$http.post(url, formData)
+      console.log(res)
     }
   }
 }
@@ -243,9 +291,16 @@ export default {
     flex-wrap: wrap;
     width: 100%;
     .box-item{
-      width: 33%;
-      padding: 1%;
+      position: relative;
+      width: 32%;
+      height: 32%;
+      margin: 2px;
       .box-item-img{
+        width: 100%;
+        height: 100%;
+      }
+      .dialog{
+        position: absolute;
         width: 100%;
         height: 100%;
       }

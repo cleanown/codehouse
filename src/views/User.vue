@@ -83,10 +83,10 @@ export default {
     const res = await this.$http.get(url)
     if (res.data.code === 200) {
       this.$store.commit('userinfo', (res.data.data))
-      console.log(res.data.data)
+      console.log(res.data.msg)
     } else {
       this.snackbar = true
-      this.text = res.msg
+      this.text = res.data.msg
       this.login = true
     }
   }
