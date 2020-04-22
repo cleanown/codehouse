@@ -27,16 +27,6 @@
         @mouseout="companydetailReg"
       ></v-textarea>
       <p>上传图片：</p>
-      <v-file-input
-        :rules="rules"
-        accept="image/png, image/jpeg, image/bmp"
-        placeholder="选择图片"
-        prefix
-        prepend-icon="mdi-camera"
-        show-size
-        v-model="file"
-        @change="imgPost(file)"
-      ></v-file-input>
       <div class="box">
         <div
           class="box-item"
@@ -68,6 +58,16 @@
             alt="图片加载失败"
             @click="ImgUpdata(index)"
           />
+        </div>
+        <div class="inp">
+          <v-file-input
+            class="inp-file"
+            :rules="rules"
+            accept="image/png, image/jpeg, image/bmp"
+            v-model="file"
+            @change="imgPost(file)"
+          ></v-file-input>
+          <v-img class="inp-img" src="../assets/add.png" />
         </div>
       </div>
       <div class="city">
@@ -291,6 +291,23 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    .inp{
+      position: relative;
+      width: 32%;
+      height: 32%;
+      margin: 2px;
+      .inp-img{
+        // width: 100%;
+        // height: 100%;
+      }
+      .inp-file{
+        width: 100%;
+        height: 100%;
+        // opacity: 0;
+        z-index: 3;
+        position: absolute;
+      }
+    }
     .box-item{
       position: relative;
       width: 32%;
