@@ -31,6 +31,7 @@
         :rules="rules"
         accept="image/png, image/jpeg, image/bmp"
         placeholder="选择图片"
+        prefix
         prepend-icon="mdi-camera"
         show-size
         v-model="file"
@@ -254,11 +255,11 @@ export default {
         this.snackbar = true
         this.text = '上传图片不得超过5张'
       }
-      const formData = new FormData()
-      formData.append('file', this.file)
-      const url = `${config.online}/upload/img`
-      const res = await this.$http.post(url, formData)
-      console.log(res)
+      // const formData = new FormData()
+      // formData.append('file', this.file)
+      // const url = `${config.online}/upload/img`
+      // const res = await this.$http.post(url, formData)
+      // console.log(res)
     }
   }
 }
