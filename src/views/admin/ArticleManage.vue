@@ -29,14 +29,14 @@
             ref="beginmenu"
             v-model="beginmenu"
             :close-on-content-click="false"
-            :return-value.sync="begindate"
+            :return-value.sync="beginDate"
             transition="scale-transition"
             offset-y
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="begindate"
+                v-model="beginDate"
                 label="开始日期"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -44,14 +44,14 @@
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="begindate"
+              v-model="beginDate"
               no-title scrollable
               min="2020-03-01"
               :max="date"
             >
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="beginmenu = false">取消</v-btn>
-              <v-btn text color="primary" @click="$refs.beginmenu.save(begindate)">确认</v-btn>
+              <v-btn text color="primary" @click="$refs.beginmenu.save(beginDate)">确认</v-btn>
             </v-date-picker>
           </v-menu>
           <v-spacer></v-spacer>
@@ -59,14 +59,14 @@
             ref="endmenu"
             v-model="endmenu"
             :close-on-content-click="false"
-            :return-value.sync="enddate"
+            :return-value.sync="endDate"
             transition="scale-transition"
             offset-y
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="enddate"
+                v-model="endDate"
                 label="结束日期"
                 prepend-icon="mdi-calendar"
                 readonly
@@ -74,14 +74,14 @@
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="enddate"
+              v-model="endDate"
               no-title scrollable
               min="2020-03-01"
               :max="date"
             >
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="endmenu = false">取消</v-btn>
-              <v-btn text color="primary" @click="$refs.endmenu.save(enddate)">确认</v-btn>
+              <v-btn text color="primary" @click="$refs.endmenu.save(endDate)">确认</v-btn>
             </v-date-picker>
           </v-menu>
         </div>
@@ -148,9 +148,9 @@ export default {
       timeout: 2000,
       searchValue: '',
       date: new Date().toISOString().substr(0, 10),
-      begindate: new Date().toISOString().substr(0, 10),
+      beginDate: new Date().toISOString().substr(0, 10),
       beginmenu: false,
-      enddate: new Date().toISOString().substr(0, 10),
+      endDate: new Date().toISOString().substr(0, 10),
       endmenu: false,
       beginTime: '',
       endtime: ''
@@ -169,9 +169,9 @@ export default {
       this.apidataGet()
     },
     handleSelectClick () {
-      this.beginTime = this.begindate
+      this.beginTime = new Date(this.beginDate).getTime()
       console.log(this.beginTime)
-      this.endTime = (this.enddate.slice(5, 7)) * 2592000000 + this.enddate.slice(8, 10) * 86400000
+      this.endTime = new Date(this.endDate).getTime() + 24 * 60 * 60 * 1000
       console.log(this.endTime)
       if (this.beginTime > this.endTime) {
         this.snackbar = true
