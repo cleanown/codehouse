@@ -157,9 +157,6 @@ export default {
     }
   },
   watch: {
-    file (val) {
-      console.log(val)
-    },
     overlay (val) {
       console.log(val)
       if (val === true) {
@@ -240,7 +237,14 @@ export default {
       }
     },
     async imgPost (file) {
-      if (this.detailimg.length < 6) {
+      if (this.detailimg.length > 6) {
+        this.snackbar = true
+        this.text = '上传图片不得超过5张'
+      } else if (this.file.size > 2000000) {
+        this.snackbar = true
+        this.text = '图片质量不得大于2M'
+      } else {
+      // 预览图片
         let imgUrl
         const reader = new FileReader()
         reader.readAsDataURL(file)
@@ -249,10 +253,8 @@ export default {
           imgUrl = e.target.result
           this.detailimg.unshift(imgUrl)
         }
-      } else {
-        this.snackbar = true
-        this.text = '上传图片不得超过5张'
       }
+      // 上传图片
       const formData = new FormData()
       formData.append('file', this.file)
       const url = `${config.online}/upload/img`
@@ -302,7 +304,7 @@ export default {
       .inp-file{
         width: 100%;
         height: 100%;
-        opacity: 0;
+        // opacity: 0;
         top: 32%;
         z-index: 3;
         position: absolute;

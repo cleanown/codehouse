@@ -26,7 +26,7 @@
       v-show="!wait"
       >
       <v-list-item
-        v-for="(item, index) in this.$store.state.adminmg.adminlist"
+        v-for="(item, index) in this.$store.state.articlelist.adminlist"
         :key="item._id"
         class="list"
         style="border-bottom: 1px solid #eee"
@@ -101,12 +101,13 @@ export default {
     z-index: 2;
     top: 0;
     left: 0;
-    height: 78px;
+    height: 75px;
     width: 100%;
     padding: 15px 20px;
   }
   .searchlist{
     margin-top: 56px;
+    margin-bottom: 56px;
   }
   .wait{
     position: fixed;

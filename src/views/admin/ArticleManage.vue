@@ -17,10 +17,17 @@
       temporary
       bottom
     >
-      <p class="drawer-title">筛选</p>
+      <div class="drawer-title">筛选</div>
       <div class="drawer-switch">
-        <v-switch v-model="isverify" class="mx-2" label="待审核"></v-switch>
-        <v-switch v-model="isdelete" class="mx-2" label="已删除"></v-switch>
+        <v-switch v-model="isverifyAdopt" dense hide-details label="全部"></v-switch>
+      </div>
+      <div class="drawer-switch">
+        <v-switch v-model="isverifyAdopt" dense hide-details label="审核已通过"></v-switch>
+        <v-switch v-model="isdelete" dense hide-details label="已删除"></v-switch>
+      </div>
+      <div class="drawer-switch">
+        <v-switch v-model="isverifyPass" dense hide-details label="审核未通过"></v-switch>
+        <v-switch v-model="isdelete" dense hide-details label="未删除"></v-switch>
       </div>
       <div class="drawer-time">
         <div>发布时间 :</div>
@@ -85,15 +92,15 @@
             </v-date-picker>
           </v-menu>
         </div>
-        <div class="drawer-btn">
-          <v-btn
-            width="100%"
-            color="primary"
-            @click="handleSelectClick"
-          >
-            确认
-          </v-btn>
-        </div>
+      </div>
+      <div class="drawer-btn">
+        <v-btn
+          width="100%"
+          color="primary"
+          @click="handleSelectClick"
+        >
+          确认
+        </v-btn>
       </div>
     </v-navigation-drawer>
 
@@ -140,20 +147,34 @@ export default {
       ],
       page: 1,
       pagetotal: 1,
-      isverify: false,
-      isdelete: false,
+      isverifyAdopt: '',
+      isverifyPass: '',
+      isverify: '',
+      isdelete: '',
       snackbar: false,
       snackcolor: '#999',
       text: '',
       timeout: 2000,
       searchValue: '',
       date: new Date().toISOString().substr(0, 10),
-      beginDate: new Date().toISOString().substr(0, 10),
+      beginDate: '',
       beginmenu: false,
-      endDate: new Date().toISOString().substr(0, 10),
+      endDate: '',
       endmenu: false,
       beginTime: '',
       endtime: ''
+    }
+  },
+  watch: {
+    isverifyAdopt (val) {
+      console.log(val)
+    },
+    isverifyPass (val) {
+      console.log(val)
+    },
+    page (val) {
+      console.log(val)
+      this.apidataGet()
     }
   },
   components: {
@@ -194,7 +215,7 @@ export default {
       const res = await this.$http.post(url, data)
       if (res.data.code === 200) {
         this.wait = false
-        this.$store.commit('adminmg', (res.data.data))
+        this.$store.commit('articlelist', (res.data.data))
         console.log(res.data.data)
         this.page = res.data.data.page
         this.pagetotal = res.data.data.pageTotle
@@ -218,7 +239,7 @@ export default {
   text-align: center;
   font-size: 20px;
   font-weight: bolder;
-  margin: 10px;;
+  margin-top: 10px;
 }
 .drawer-switch{
   display: flex;
@@ -227,15 +248,13 @@ export default {
 .drawer-time{
   padding: 0 20px;
   .drawer-time-select{
-    margin-top: 20px;
+    margin-bottom: 10px;
   }
 }
 .drawer-btn{
   width: 100%;
   padding: 0 50px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  bottom: 0;
+  margin-bottom: 56px;
 }
 .footer{
   position: fixed;

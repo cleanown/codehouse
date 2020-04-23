@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     fabulous: 2,
     userinfo: {},
-    adminmg: {}
+    articlelist: {}
   },
   mutations: {
     increment: state => state.fabulous++,
@@ -15,8 +15,8 @@ export default new Vuex.Store({
     userinfo (state, userinfo) {
       state.userinfo = userinfo
     },
-    adminmg (state, adminmg) {
-      state.adminmg = adminmg
+    articlelist (state, articlelist) {
+      state.articlelist = articlelist
     }
   },
   actions: {

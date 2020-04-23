@@ -153,16 +153,6 @@ export default {
       }],
       num: 5,
       detailimg: [
-        { imgUrl: require('../assets/a1.png') },
-        { imgUrl: require('../assets/a2.png') },
-        { imgUrl: require('../assets/a3.png') },
-        { imgUrl: require('../assets/a4.png') },
-        { imgUrl: require('../assets/a5.png') },
-        { imgUrl: require('../assets/a6.png') },
-        { imgUrl: require('../assets/a7.png') },
-        { imgUrl: require('../assets/2.jpg') },
-        { imgUrl: require('../assets/a1.png') },
-        { imgUrl: require('../assets/a1.png') }
       ],
       updateTime: ''
     }
