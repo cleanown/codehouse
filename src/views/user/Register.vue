@@ -121,6 +121,7 @@ export default {
       if (!countsReg.test(this.password)) {
         this.snackbar = true
         this.text = '请输入4-16位密码'
+        this.password = ''
       } else if (!letterReg.test(this.password)) {
         this.snackbar = true
         this.text = '密码需有字母和数字组合'

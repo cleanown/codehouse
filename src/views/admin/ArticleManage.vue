@@ -22,12 +22,12 @@
         <v-switch v-model="all" dense hide-details label="全部"></v-switch>
       </div>
       <div class="drawer-switch">
-        <v-switch v-model="isverifyAdopt" dense hide-details label="审核已通过"></v-switch>
-        <v-switch v-model="isdeleteAdopt" dense hide-details label="已删除"></v-switch>
+        <v-switch v-model="isverifyAdopt" dense :disabled="disabled" hide-details label="审核已通过"></v-switch>
+        <v-switch v-model="isdeleteAdopt" dense :disabled="disabled" hide-details label="已删除"></v-switch>
       </div>
       <div class="drawer-switch">
-        <v-switch v-model="isverifyPass" dense hide-details label="审核未通过"></v-switch>
-        <v-switch v-model="isdeletePass" dense hide-details label="未删除"></v-switch>
+        <v-switch v-model="isverifyPass" dense :disabled="disabled" hide-details label="审核未通过"></v-switch>
+        <v-switch v-model="isdeletePass" dense :disabled="disabled" hide-details label="未删除"></v-switch>
       </div>
       <div class="drawer-time">
         <div>发布时间 :</div>
@@ -48,6 +48,7 @@
                 prepend-icon="mdi-calendar"
                 readonly
                 v-on="on"
+                :disabled="disabled"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -78,6 +79,7 @@
                 prepend-icon="mdi-calendar"
                 readonly
                 v-on="on"
+                :disabled="disabled"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -147,7 +149,8 @@ export default {
       ],
       page: 1,
       pagetotal: 1,
-      all: true,
+      all: false,
+      disabled: false,
       isverifyAdopt: false,
       isverifyPass: false,
       isverify: '',
@@ -163,20 +166,21 @@ export default {
       beginDate: '',
       beginmenu: false,
       endDate: '',
-      endmenu: false,
-      beginTime: '',
-      endtime: ''
+      endmenu: false
     }
   },
   watch: {
     all (val) {
       console.log(val)
+      this.allJudge(val)
     },
     isverify (val) {
       console.log(`isverify:${val}`)
+      // this.allJudge()
     },
     isdelete (val) {
       console.log(`isdelete:${val}`)
+      // this.allJudge()
     },
     isverifyAdopt (val) {
       // console.log(val)
@@ -211,6 +215,7 @@ export default {
       this.page = 1
       this.apidataGet()
     },
+    // 审核判断
     isverifyJudge () {
       if (this.isverifyAdopt === this.isverifyPass) {
         this.isverify = ''
@@ -220,6 +225,7 @@ export default {
         this.isverify = false
       }
     },
+    // 删除判断
     isdeleteJudge () {
       if (this.isdeleteAdopt === this.isdeletePass) {
         this.isdelete = ''
@@ -229,28 +235,43 @@ export default {
         this.isdelete = false
       }
     },
+    allJudge (val) {
+      if (val === false) {
+        this.disabled = false
+      } else {
+        this.isverifyAdopt = ''
+        this.isverifyPass = ''
+        this.isverify = ''
+        this.isdelete = ''
+        this.isdeleteAdopt = ''
+        this.isdeletePass = ''
+        this.beginDate = ''
+        this.endDate = ''
+        this.disabled = true
+        console.log(val)
+        console.log(this.disabled)
+      }
+    },
     handleSelectClick () {
-      this.beginTime = new Date(this.beginDate).getTime()
-      console.log(this.beginTime)
-      this.endTime = new Date(this.endDate).getTime() + 24 * 60 * 60 * 1000
-      console.log(this.endTime)
-      if (this.beginTime > this.endTime) {
+      if (new Date(this.beginDate).getTime() > new Date(this.endDate).getTime()) {
         this.snackbar = true
         this.text = '开始时间应小于结束时间'
       } else {
+        this.page = 1
         this.apidataGet()
         this.drawer = false
       }
     },
     async apidataGet () {
+      this.wait = true
       const url = `${config.online}/search/adminCompanyList`
       const data = {
         page: this.page,
         isverify: this.isverify,
         isdelete: this.isdelete,
         hotkey: this.searchValue,
-        beginTime: this.beginTime,
-        endTime: this.endTime
+        beginTime: new Date(this.beginDate).getTime(),
+        endTime: new Date(this.endDate).getTime() + 24 * 60 * 60 * 1000
       }
       const res = await this.$http.post(url, data)
       if (res.data.code === 200) {
