@@ -19,15 +19,15 @@
     >
       <div class="drawer-title">筛选</div>
       <div class="drawer-switch">
-        <v-switch v-model="isverifyAdopt" dense hide-details label="全部"></v-switch>
+        <v-switch v-model="all" dense hide-details label="全部"></v-switch>
       </div>
       <div class="drawer-switch">
         <v-switch v-model="isverifyAdopt" dense hide-details label="审核已通过"></v-switch>
-        <v-switch v-model="isdelete" dense hide-details label="已删除"></v-switch>
+        <v-switch v-model="isdeleteAdopt" dense hide-details label="已删除"></v-switch>
       </div>
       <div class="drawer-switch">
         <v-switch v-model="isverifyPass" dense hide-details label="审核未通过"></v-switch>
-        <v-switch v-model="isdelete" dense hide-details label="未删除"></v-switch>
+        <v-switch v-model="isdeletePass" dense hide-details label="未删除"></v-switch>
       </div>
       <div class="drawer-time">
         <div>发布时间 :</div>
@@ -147,10 +147,13 @@ export default {
       ],
       page: 1,
       pagetotal: 1,
-      isverifyAdopt: '',
-      isverifyPass: '',
+      all: true,
+      isverifyAdopt: false,
+      isverifyPass: false,
       isverify: '',
       isdelete: '',
+      isdeleteAdopt: '',
+      isdeletePass: '',
       snackbar: false,
       snackcolor: '#999',
       text: '',
@@ -166,11 +169,30 @@ export default {
     }
   },
   watch: {
-    isverifyAdopt (val) {
+    all (val) {
       console.log(val)
     },
+    isverify (val) {
+      console.log(`isverify:${val}`)
+    },
+    isdelete (val) {
+      console.log(`isdelete:${val}`)
+    },
+    isverifyAdopt (val) {
+      // console.log(val)
+      this.isverifyJudge()
+    },
     isverifyPass (val) {
-      console.log(val)
+      // console.log(val)
+      this.isverifyJudge()
+    },
+    isdeleteAdopt (val) {
+      // console.log(val)
+      this.isdeleteJudge()
+    },
+    isdeletePass (val) {
+      // console.log(val)
+      this.isdeleteJudge()
     },
     page (val) {
       console.log(val)
@@ -188,6 +210,24 @@ export default {
       this.searchValue = val
       this.page = 1
       this.apidataGet()
+    },
+    isverifyJudge () {
+      if (this.isverifyAdopt === this.isverifyPass) {
+        this.isverify = ''
+      } else if (this.isverifyAdopt === true) {
+        this.isverify = true
+      } else {
+        this.isverify = false
+      }
+    },
+    isdeleteJudge () {
+      if (this.isdeleteAdopt === this.isdeletePass) {
+        this.isdelete = ''
+      } else if (this.isdeleteAdopt === true) {
+        this.isdelete = true
+      } else {
+        this.isdelete = false
+      }
     },
     handleSelectClick () {
       this.beginTime = new Date(this.beginDate).getTime()

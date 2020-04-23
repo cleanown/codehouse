@@ -92,8 +92,8 @@ export default {
 
 <style lang="scss" scoped>
 .home{
-  margin-top: 56px;
-  padding: 10px;
+  margin-top: 112px;
+  padding: 0px 10px;
   .headerArea {
     margin-top: 56px;
     position: fixed;
