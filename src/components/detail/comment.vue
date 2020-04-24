@@ -11,14 +11,42 @@
             </div>
             <div>{{item.name}}</div>
           </div>
-          <p class="comment-desc">{{item.desc}}</p>
+          <p class="comment-desc" @click="replyMessage">{{item.desc}}</p>
           <p class="comment-time">评论时间：{{item.momentTime}}</p>
           <div style="font-size: 12px; background: #eee; padding: 5px">
             <span style="color: blue">{{$store.state.userinfo.username}} 回复 adminn:</span>
-            <p style="text-indent: 2rem">是该砂咖啡的拉开水电费撒旦法开始发哈市收到反馈会卡死积分兑换</p>
+            <p style="text-indent: 2rem">{{item.reply.replydesc}}</p>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="dialogue" v-show="replyshow">
+      <v-btn icon style="margin-right: 7px" @click="messageshow = false">
+        <v-icon>mdi-chevron-down</v-icon>
+      </v-btn>
+      <v-textarea
+        label="回复"
+        solo
+        class="dialogue-message"
+        v-model="reply"
+        background-color="#fff"
+        dense
+        hide-details
+        clearable
+        outlined
+        rows="1"
+        no-resize
+      ></v-textarea>
+      <v-btn
+        rounded
+        color="deep-purple darken-2"
+        style="color: #fff"
+        class="dialogue-btn"
+        @click="replySendClick"
+        >
+        发送
+      </v-btn>
     </div>
   </div>
 </template>
@@ -28,6 +56,26 @@ export default {
   name: 'comment',
   props: {
     sendmessage: Array
+  },
+  data () {
+    return {
+      reply: '',
+      replyshow: false
+    }
+  },
+  methods: {
+    replyMessage () {
+      this.replyshow = true
+    },
+    replySendClick () {
+      console.log(this.reply)
+      const a = {
+        title: 'solace 回复 admin',
+        replydesc: this.reply
+      }
+      this.sendmessage.reply.push(a)
+      console.log(this.sendmessage)
+    }
   }
 }
 </script>
@@ -77,6 +125,19 @@ export default {
       width: 100%;
       text-align: right;
     }
+  }
+}
+.dialogue{
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 56px;
+  background: #B39DDB;
+  bottom: 0;
+  align-items: center;
+  padding: 0 10px;
+  .dialogue-btn{
+    margin-left: 10px;
   }
 }
 </style>

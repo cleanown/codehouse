@@ -157,6 +157,12 @@ export default {
     }
   },
   watch: {
+    file (val) {
+      console.log(val)
+      console.log(val.name)
+      console.log(val.lastModified)
+      console.log(val.lastModifiedDate)
+    },
     overlay (val) {
       console.log(val)
       if (val === true) {
@@ -237,6 +243,7 @@ export default {
       }
     },
     async imgPost (file) {
+      // 照片审核
       if (this.detailimg.length > 6) {
         this.snackbar = true
         this.text = '上传图片不得超过5张'
@@ -256,6 +263,7 @@ export default {
       }
       // 上传图片
       const formData = new FormData()
+      // formData.append('file', (this.file.name, this.file.lastModified, this.file.lastModifiedDate))
       formData.append('file', this.file)
       const url = `${config.online}/upload/img`
       const res = await this.$http.post(url, formData)
