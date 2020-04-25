@@ -159,9 +159,6 @@ export default {
   watch: {
     file (val) {
       console.log(val)
-      console.log(val.name)
-      console.log(val.lastModified)
-      console.log(val.lastModifiedDate)
     },
     overlay (val) {
       console.log(val)
