@@ -5,6 +5,7 @@
              backgroundSize: '100% 50%',
              backgroundRepeat: 'no-repeat'}"
   >
+    <!-- 头部栏 -->
     <v-toolbar class="header">
       <v-btn icon @click="$router.go(-1)">
         <v-icon>mdi-chevron-left</v-icon>
@@ -24,7 +25,7 @@
         <v-icon>mdi-home</v-icon>
       </v-btn>
     </v-toolbar>
-
+    <!-- 内容 -->
     <div class="container" v-if="'meta' in companydetail">
       <div class="container-detail">
         <p class="container-head">{{companydetail.companyname}}</p>
@@ -40,7 +41,7 @@
         </div>
       </div>
     </div>
-
+    <!-- 底部栏 -->
     <div class="opinion">
       <v-btn
         icon
@@ -69,7 +70,7 @@
       <div>{{num}}</div>
       </div>
     </div>
-
+    <!-- 回复框 -->
     <div class="dialogue" v-show="messageshow">
       <v-btn icon style="margin-right: 7px" @click="messageshow = false">
         <v-icon>mdi-chevron-down</v-icon>
@@ -95,7 +96,7 @@
         发送
       </v-btn>
     </div>
-
+    <!-- 提示框 -->
     <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
@@ -125,9 +126,10 @@ export default {
   name: 'detail',
   data () {
     return {
-      bgUrl: this.$route.query.bgUrl,
+      bgUrl: '',
       companydetail: {},
       title: '详情',
+      isverify: '',
       messageshow: false,
       timeout: 1000,
       snackbar: false,
@@ -155,6 +157,13 @@ export default {
   watch: {
     message (val) {
       console.log(val)
+    },
+    isverify (val) {
+      if (val === true) {
+        this.bgUrl = require('../assets/adopt.png')
+      } else {
+        this.bgUrl = require('../assets/pass.png')
+      }
     }
   },
   methods: {
@@ -170,6 +179,8 @@ export default {
         this.companydetail = res.data.data
         this.updateTime = res.data.data.meta.updateAt
         this.updateTime = this.$moment(this.updateTime).format('lll')
+        this.isverify = res.data.data.isverify
+        console.log(this.isverify)
         console.log(this.companydetail)
         console.log(this.updateTime)
       }
@@ -203,13 +214,11 @@ export default {
       const res = await this.$http.put(url, data)
       if (res.data.code === 200) {
         if (this.companydetail.isverify) {
-          this.bgUrl = require('../assets/pass.png')
           this.snackbar = true
           this.text = '下架成功'
         } else {
           this.snackbar = true
           this.text = '审核通过'
-          this.bgUrl = require('../assets/adopt.png')
         }
         this.apiGetdata()
       } else {

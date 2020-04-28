@@ -117,11 +117,11 @@ export default {
     // },
     handleLoginClick () {
       const url = `${config.online}/user/login`
-      console.log(url)
       this.$http.post(url, {
         username: this.username,
         password: this.password
       }).then(({ data }) => {
+        console.log(data)
         if (data.code === 200) {
           localStorage.setItem('token', data.data.id)
           this.$router.push({

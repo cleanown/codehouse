@@ -81,8 +81,7 @@ export default {
       this.$router.push({
         path: '/articledetail',
         query: {
-          id,
-          bgUrl: require('../../assets/wait.png')
+          id
         }
       })
     }

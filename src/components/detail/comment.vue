@@ -88,7 +88,7 @@ export default {
   .comment-header{
     width: 100%;
     height: 1px;
-    background: #999;
+    border-top: 1px dashed #999;
   }
   .comment-title{
     margin-top: 10px;
