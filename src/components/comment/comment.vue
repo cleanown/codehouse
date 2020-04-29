@@ -102,8 +102,7 @@ import config from '../../request/config'
 export default {
   name: 'comment',
   props: {
-    replyshow: Boolean,
-    authid: String
+    replyshow: Boolean
   },
   data () {
     return {

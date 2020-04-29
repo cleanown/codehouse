@@ -13,10 +13,10 @@
       <v-btn icon @click="deleteJudgeClick" v-if="userinfo.role > 1">
         <v-icon>mdi-delete-forever-outline</v-icon>
       </v-btn>
-      <v-btn icon @click="handleAdoptClick" v-show="companydetail.isverify && userinfo.role > 1">
+      <v-btn icon @click="handleAdoptClick" v-show="company.isverify && userinfo.role > 1">
         <v-icon>mdi-card-bulleted-off</v-icon>
       </v-btn>
-      <v-btn icon @click="handleAdoptClick" v-show="!companydetail.isverify && userinfo.role > 1">
+      <v-btn icon @click="handleAdoptClick" v-show="!company.isverify && userinfo.role > 1">
         <v-icon>mdi-check-bold</v-icon>
       </v-btn>
       <v-btn icon @click="$router.push({path: '/'})">
@@ -24,17 +24,17 @@
       </v-btn>
     </v-toolbar>
     <!-- 内容 -->
-    <div class="container" v-if="'meta' in companydetail">
+    <div class="container">
       <div class="container-detail">
-        <p class="container-head">{{companydetail.companyname}}</p>
-        <p class="container-desc">{{companydetail.companydetail}}</p>
+        <p class="container-head">{{company.companyname}}</p>
+        <p class="container-desc">{{company.companydetail}}</p>
         <div class="box">
-          <div class="box-item" v-for="(item, index) of companydetail.imgs" :key="index" @click="carousel = true">
+          <div class="box-item" v-for="(item, index) of company.imgs" :key="index" @click="carousel = true">
             <img class="box-item-img" :src="item.imgUrl" alt="图片加载失败"/>
           </div>
         </div>
         <div class="container-time">
-          <p class="release-time">作者：{{companydetail.userinfo.username}}</p>
+          <p class="release-time">作者：{{authname}}</p>
           <p class="release-time">发布时间：{{updateTime}}</p>
         </div>
       </div>
@@ -104,7 +104,7 @@
       </v-card>
     </v-dialog>
     <!-- 评论区 -->
-    <comment :replyshow="replyshow" :authid="authid" @replyshowClose="replyshowClose" />
+    <comment :replyshow="replyshow" @replyshowClose="replyshowClose" />
   </div>
 </template>
 
@@ -117,7 +117,7 @@ export default {
   data () {
     return {
       bgUrl: '',
-      companydetail: {},
+      company: {},
       dialog: false,
       isverify: '',
       timeout: 1000,
@@ -130,7 +130,7 @@ export default {
       detailimg: [],
       updateTime: '',
       replyshow: false,
-      authid: ''
+      authname: ''
     }
   },
   components: {
@@ -144,7 +144,7 @@ export default {
   },
   watch: {
     isverify (val) {
-      if (this.$store.state.userinfo.role > 1) {
+      if (this.userinfo.role > 1) {
         if (val === true) {
           this.bgUrl = require('../assets/adopt.png')
         } else {
@@ -165,12 +165,12 @@ export default {
       }
       const res = await this.$http.get(url, obj)
       if (res.data.code === 200) {
-        this.companydetail = res.data.data
+        this.company = res.data.data
         this.updateTime = res.data.data.meta.updateAt
         this.updateTime = this.$moment(this.updateTime).format('lll')
         this.isverify = res.data.data.isverify
-        this.authid = res.data.data._id
-        console.log(this.companydetail)
+        this.authname = res.data.data.userinfo.username
+        console.log(this.company)
       }
     },
     deleteJudgeClick () {
@@ -180,7 +180,7 @@ export default {
       const url = `${config.online}/company/admindelete`
       const data = {
         params: {
-          companyid: this.companydetail._id
+          companyid: this.company._id
         }
       }
       const res = await this.$http.delete(url, data)
@@ -198,12 +198,12 @@ export default {
     async handleAdoptClick () {
       const url = `${config.online}/company/verify`
       const data = {
-        status: !this.companydetail.isverify,
-        companyid: this.companydetail._id
+        status: !this.company.isverify,
+        companyid: this.company._id
       }
       const res = await this.$http.put(url, data)
       if (res.data.code === 200) {
-        if (this.companydetail.isverify) {
+        if (this.company.isverify) {
           this.snackbar = true
           this.text = '下架成功'
         } else {
@@ -247,11 +247,8 @@ export default {
 
 <style lang="scss" scoped>
 .home{
-  background-size: cover;
-  background-position: center center;
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
+  background-size: 100% 100%;
+  background-attachment: fixed;
   .adminmg{
     position: fixed;
     margin-top: 56px;
