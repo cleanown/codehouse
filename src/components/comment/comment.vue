@@ -163,7 +163,7 @@ export default {
         linkname: this.linkname
       }
       const res = await this.$http.post(url, data)
-      console.log(res)
+      console.log(res.data)
       if (res.data.code === 200) {
         this.snackbar = true
         this.text = res.data.msg
@@ -187,10 +187,12 @@ export default {
       this.commentid = val._id
       this.linkid = val.userid
       this.linkname = val.userinfo.username
-      console.log(`评论ID： ${this.commentid}`)
+      console.log(`%c该公司ID： ${this.companyid}`, 'color: red')
+      console.log(`该条评论ID： ${this.commentid}`)
       console.log(`@人的ID: ${this.linkid}`)
       console.log(`@人的username：${this.linkname}`)
       console.log(`我的ID：${this.userid}`)
+      console.log(`我的username：${this.$store.state.userinfo.username}`)
     },
     cReplyClick () {
       this.commentClick()
