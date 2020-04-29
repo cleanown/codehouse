@@ -11,9 +11,16 @@
             </div>
             <div>{{item.userinfo.username}}</div>
           </div>
-          <p class="comment-desc">{{item.commentdetail}}</p>
+          <div class="comment-desc">
+            <div style="float: left;color: #B388FF;font-weight: normal" v-if="item.linkid != ''">
+              @{{item.linkname}}
+            </div>
+            <div style="text-indent: 1em">
+              {{item.commentdetail}}
+            </div>
+          </div>
           <div class="comment-footer">
-            <div class="comment-footer-reply" @click="replyClick()">回复</div>
+            <div class="comment-footer-reply" @click="replyClick(item)">回复</div>
             <div class="comment-footer-delete">删除</div>
             <div class="comment-time">评论时间：{{$moment(item.meta.updateAt).format('lll')}}</div>
           </div>
@@ -58,7 +65,7 @@
         label="回复"
         solo
         class="reply-message"
-        v-model="replyComment"
+        v-model="reply"
         background-color="#fff"
         dense
         hide-details
@@ -108,7 +115,6 @@ export default {
     return {
       comments: null,
       reply: '',
-      replyComment: '',
       cReplyShow: false,
       news: {},
       timeout: 1000,
@@ -116,7 +122,10 @@ export default {
       snackcolor: '#999',
       text: '',
       companyid: this.$route.query.id,
-      userid: this.$store.state.userinfo._id
+      userid: this.$store.state.userinfo._id,
+      commentid: '',
+      linkid: '',
+      linkname: ''
     }
   },
   mounted () {
@@ -128,7 +137,7 @@ export default {
       const id = this.companyid
       const url = `${config.online}/comment/get/${id}`
       const res = await this.$http.get(url)
-      console.log(res)
+      console.log(res.data)
       this.$emit('replyshowClose', (res.data.data.length))
       if (res.data.code === 200) {
         this.news = res.data.data
@@ -148,15 +157,22 @@ export default {
       const data = {
         commentdetail: this.reply,
         companyid: this.companyid,
-        userid: this.userid
+        commentid: this.commentid,
+        userid: this.userid,
+        linkid: this.linkid,
+        linkname: this.linkname
       }
       const res = await this.$http.post(url, data)
+      console.log(res)
       if (res.data.code === 200) {
         this.snackbar = true
         this.text = res.data.msg
         this.replyshowClose()
         this.commentGet()
         this.reply = ''
+        this.commentid = ''
+        this.linkid = ''
+        this.linkname = ''
       } else {
         this.snackbar = true
         this.text = res.data.msg
@@ -165,11 +181,19 @@ export default {
     replyshowClose () {
       this.$emit('replyshowClose', (this.news.length))
     },
-    replyClick () {
+    replyClick (val) {
       this.cReplyShow = true
+      console.log(val)
+      this.commentid = val._id
+      this.linkid = val.userid
+      this.linkname = val.userinfo.username
+      console.log(`评论ID： ${this.commentid}`)
+      console.log(`@人的ID: ${this.linkid}`)
+      console.log(`@人的username：${this.linkname}`)
+      console.log(`我的ID：${this.userid}`)
     },
     cReplyClick () {
-      console.log('111')
+      this.commentClick()
     }
   }
 }
@@ -216,8 +240,7 @@ export default {
     .comment-desc{
       font-size: 17px;
       font-weight: bold;
-      margin-bottom: 5px;
-      text-indent: 2em;
+      margin-bottom: 10px;
       word-break:break-all;
     }
     .comment-footer{
@@ -228,7 +251,6 @@ export default {
       align-items: center;
       .comment-footer-reply{
         color: #311B92;
-        text-indent: 1em;
       }
       .comment-footer-delete{
         color: red;
