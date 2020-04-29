@@ -1,7 +1,6 @@
 <template>
   <div
     class="home"
-    :style="{backgroundImage: 'url(' + bgUrl + ')'}"
   >
     <!-- 头部栏 -->
     <v-toolbar class="header">
@@ -24,7 +23,7 @@
       </v-btn>
     </v-toolbar>
     <!-- 内容 -->
-    <div class="container">
+    <div class="container" :style="{backgroundImage: 'url(' + bgUrl + ')'}">
       <div class="container-detail">
         <p class="container-head">{{company.companyname}}</p>
         <p class="container-desc">{{company.companydetail}}</p>
@@ -170,7 +169,7 @@ export default {
         this.updateTime = this.$moment(this.updateTime).format('lll')
         this.isverify = res.data.data.isverify
         this.authname = res.data.data.userinfo.username
-        console.log(this.company)
+        // console.log(this.company)
       }
     },
     deleteJudgeClick () {
@@ -247,8 +246,6 @@ export default {
 
 <style lang="scss" scoped>
 .home{
-  background-size: 100% 100%;
-  background-attachment: fixed;
   .adminmg{
     position: fixed;
     margin-top: 56px;
@@ -287,6 +284,8 @@ export default {
   .container{
     margin-top: 56px;
     padding: 20px;
+    background-size: auto;
+    background-position: center;
     .container-detail{
       .container-head{
         font-size: 20px;

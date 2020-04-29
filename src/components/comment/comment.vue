@@ -123,10 +123,12 @@ export default {
     this.commentGet()
   },
   methods: {
+    // 评论获取
     async commentGet () {
       const id = this.companyid
       const url = `${config.online}/comment/get/${id}`
       const res = await this.$http.get(url)
+      console.log(res)
       this.$emit('replyshowClose', (res.data.data.length))
       if (res.data.code === 200) {
         this.news = res.data.data
@@ -140,6 +142,7 @@ export default {
         this.text = res.data.msg
       }
     },
+    // 发表评论
     async commentClick () {
       const url = `${config.online}/comment/add`
       const data = {
