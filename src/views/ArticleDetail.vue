@@ -1,18 +1,16 @@
 <template>
   <div
     class="home"
-    :style="{backgroundImage: 'url(' + bgUrl + ')',
-             backgroundSize: '100% 50%',
-             backgroundRepeat: 'no-repeat'}"
+    :style="{backgroundImage: 'url(' + bgUrl + ')'}"
   >
     <!-- 头部栏 -->
     <v-toolbar class="header">
       <v-btn icon @click="$router.go(-1)">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title>详情</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click="handleDeleteClick" v-if="userinfo.role > 1">
+      <v-btn icon @click="deleteJudgeClick" v-if="userinfo.role > 1">
         <v-icon>mdi-delete-forever-outline</v-icon>
       </v-btn>
       <v-btn icon @click="handleAdoptClick" v-show="companydetail.isverify && userinfo.role > 1">
@@ -36,7 +34,7 @@
           </div>
         </div>
         <div class="container-time">
-          <p class="release-time">作者：{{this.$store.state.userinfo.username}}</p>
+          <p class="release-time">作者：{{companydetail.userinfo.username}}</p>
           <p class="release-time">发布时间：{{updateTime}}</p>
         </div>
       </div>
@@ -46,8 +44,8 @@
       <v-btn
         icon
         class="tips"
-        @click="handledialogueClick"
-        :style="styledialogue"
+        @click="handleCollectClick"
+        :style="styleCollect"
         >
         <v-icon>mdi-heart</v-icon>
       </v-btn>
@@ -61,7 +59,7 @@
         </v-btn>
         <div>{{this.$store.state.fabulous}}</div>
       </div>
-      <div class="tips" @click="messageshow = true">
+      <div class="tips" @click="dialogue">
         <v-btn
         icon
         >
@@ -69,32 +67,6 @@
       </v-btn>
       <div>{{num}}</div>
       </div>
-    </div>
-    <!-- 回复框 -->
-    <div class="dialogue" v-show="messageshow">
-      <v-btn icon style="margin-right: 7px" @click="messageshow = false">
-        <v-icon>mdi-chevron-down</v-icon>
-      </v-btn>
-      <v-textarea
-        class="dialogue-message"
-        v-model="message"
-        background-color="#fff"
-        dense
-        hide-details
-        clearable
-        outlined
-        rows="1"
-        no-resize
-      ></v-textarea>
-      <v-btn
-        rounded
-        color="deep-purple darken-2"
-        style="color: #fff"
-        class="dialogue-btn"
-        @click="sendClick"
-        >
-        发送
-      </v-btn>
     </div>
     <!-- 提示框 -->
     <v-snackbar
@@ -113,14 +85,32 @@
         <v-icon>mid-close</v-icon>
       </v-btn>
     </v-snackbar>
-
-    <comment :sendmessage="sendmessage" />
+    <!-- 弹出提示框 -->
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">提示！！！</v-card-title>
+        <v-card-text class="infors">
+          确定删除该文章？
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            取消
+          </v-btn>
+          <v-btn color="green darken-1" text @click="deleteClick">
+            确定
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- 评论区 -->
+    <comment :replyshow="replyshow" :authid="authid" @replyshowClose="replyshowClose" />
   </div>
 </template>
 
 <script>
 import config from '../request/config'
-import Comment from '../components/detail/comment'
+import Comment from '../components/comment/comment'
 import { mapState } from 'vuex'
 export default {
   name: 'detail',
@@ -128,21 +118,19 @@ export default {
     return {
       bgUrl: '',
       companydetail: {},
-      title: '详情',
+      dialog: false,
       isverify: '',
-      messageshow: false,
       timeout: 1000,
       snackbar: false,
       snackcolor: '#999',
       text: '',
-      styledialogue: { color: '#757575' },
+      styleCollect: { color: '#757575' },
       styleFabulous: { color: '#757575' },
-      message: '',
-      sendmessage: [],
-      num: 5,
-      detailimg: [
-      ],
-      updateTime: ''
+      num: '',
+      detailimg: [],
+      updateTime: '',
+      replyshow: false,
+      authid: ''
     }
   },
   components: {
@@ -155,14 +143,15 @@ export default {
     this.apiGetdata()
   },
   watch: {
-    message (val) {
-      console.log(val)
-    },
     isverify (val) {
-      if (val === true) {
-        this.bgUrl = require('../assets/adopt.png')
+      if (this.$store.state.userinfo.role > 1) {
+        if (val === true) {
+          this.bgUrl = require('../assets/adopt.png')
+        } else {
+          this.bgUrl = require('../assets/pass.png')
+        }
       } else {
-        this.bgUrl = require('../assets/pass.png')
+        this.bgUrl = ''
       }
     }
   },
@@ -180,12 +169,14 @@ export default {
         this.updateTime = res.data.data.meta.updateAt
         this.updateTime = this.$moment(this.updateTime).format('lll')
         this.isverify = res.data.data.isverify
-        console.log(this.isverify)
+        this.authid = res.data.data._id
         console.log(this.companydetail)
-        console.log(this.updateTime)
       }
     },
-    async handleDeleteClick () {
+    deleteJudgeClick () {
+      this.dialog = true
+    },
+    async deleteClick () {
       const url = `${config.online}/company/admindelete`
       const data = {
         params: {
@@ -193,7 +184,6 @@ export default {
         }
       }
       const res = await this.$http.delete(url, data)
-      console.log(res)
       if (res.data.code === 200) {
         this.snackbar = true
         this.text = res.data.msg
@@ -226,8 +216,8 @@ export default {
         this.text = res.data.msg
       }
     },
-    handledialogueClick () {
-      this.styledialogue.color = this.styledialogue.color === '#757575' ? '#651FFF' : '#757575'
+    handleCollectClick () {
+      this.styleCollect.color = this.styleCollect.color === '#757575' ? '#651FFF' : '#757575'
       this.snackbar = true
       this.text = this.text === '取消收藏' ? '收藏成功' : '取消收藏'
       this.snackcolor = this.snackcolor === '#ccc' ? 'green' : '#ccc'
@@ -240,25 +230,15 @@ export default {
         this.$store.commit('increment')
       }
     },
-    sendClick () {
-      if (this.message === '') {
-        this.snackbar = true
-        this.text = '内容不得为空'
+    dialogue () {
+      this.replyshow = true
+    },
+    replyshowClose (val) {
+      this.replyshow = false
+      if (val === 0) {
+        this.num = ''
       } else {
-        const a = {
-          headImgUrl: this.$store.state.userinfo.headimg,
-          name: this.$store.state.userinfo.username,
-          desc: this.message,
-          momentTime: this.$moment(new Date()).format('lll'),
-          reply: {
-            replydesc: '福克斯凤凰科技安徽的发生的方式究竟'
-          }
-        }
-        this.sendmessage.unshift(a)
-        this.message = ''
-        this.snackbar = true
-        this.text = '评论成功'
-        this.messageshow = false
+        this.num = val
       }
     }
   }
@@ -267,6 +247,11 @@ export default {
 
 <style lang="scss" scoped>
 .home{
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
   .adminmg{
     position: fixed;
     margin-top: 56px;
@@ -282,6 +267,14 @@ export default {
   }
   .alertshow{
     margin-top: 56px;
+  }
+  .headline{
+    color: rgb(247, 18, 18);
+  }
+  .infors{
+    font-size: 16px;
+    line-height: 25px;
+    text-indent: 2rem;
   }
   .alert{
     position: fixed;
@@ -337,7 +330,7 @@ export default {
     bottom: 0;
     display: flex;
     justify-content: flex-end;
-    background: #fff;
+    background: rgb(245, 245, 245);
     width: 100%;
     height: 56px;
     color: #000;
@@ -346,19 +339,6 @@ export default {
       display: flex;
       margin-right: 15px;
       align-items: center;
-    }
-  }
-  .dialogue{
-    position: fixed;
-    display: flex;
-    width: 100%;
-    height: 56px;
-    background: #B39DDB;
-    bottom: 0;
-    align-items: center;
-    padding: 0 10px;
-    .dialogue-btn{
-      margin-left: 10px;
     }
   }
 }

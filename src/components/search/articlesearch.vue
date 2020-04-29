@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-
     <div class="headerArea">
       <v-text-field
         label="输入你想查询的公司"
@@ -109,6 +108,7 @@ export default {
   margin: 1rem;
 }
 .home{
+  margin-bottom: 56px;
   padding: 10px;
   .headerArea {
     background: #fff;

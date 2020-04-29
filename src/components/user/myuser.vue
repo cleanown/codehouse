@@ -168,7 +168,7 @@ export default {
     }
   }
   .list-title{
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px dotted #ccc;
     font-size: 16px;
     font-weight: bolder;
   }

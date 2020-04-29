@@ -13,7 +13,7 @@
 
     <v-navigation-drawer
       v-model="drawer"
-      absolute
+      fixed
       temporary
       bottom
     >
@@ -319,8 +319,8 @@ export default {
 }
 .footer{
   position: fixed;
+  background: #fff;
   bottom: 0px;
   width: 100%;
-  padding: 10px
 }
 </style>
