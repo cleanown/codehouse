@@ -5,25 +5,48 @@
       <p class="comment-title">评论:</p>
       <div v-show="comments">
         <div class="comment-list" v-for="(item, index) in news" :key="index">
-          <div class="comment-user">
-            <div class="comment-user-head">
-              <img class="comment-user-head-img" :src="item.userinfo.headimg"/>
+          <!-- 主评论 -->
+          <div>
+            <div class="comment-user">
+              <div class="comment-user-head">
+                <img class="comment-user-head-img" :src="item.userinfo.headimg"/>
+              </div>
+              <div>{{item.userinfo.username}}</div>
             </div>
-            <div>{{item.userinfo.username}}</div>
-          </div>
-          <div class="comment-desc">
-            <div style="float: left;color: #B388FF;font-weight: normal" v-if="item.linkid != ''">
-              @{{item.linkname}}
+            <div class="comment-desc">
+              <div style="text-indent: 1em">
+                {{item.commentdetail}}
+              </div>
             </div>
-            <div style="text-indent: 1em">
-              {{item.commentdetail}}
+            <div class="comment-footer">
+              <div class="comment-footer-reply" @click="replyClick(item)">回复</div>
+              <div class="comment-footer-delete">删除</div>
+              <div class="comment-time">评论时间：{{$moment(item.meta.updateAt).format('lll')}}</div>
             </div>
           </div>
-          <div class="comment-footer">
-            <div class="comment-footer-reply" @click="replyClick(item)">回复</div>
-            <div class="comment-footer-delete">删除</div>
-            <div class="comment-time">评论时间：{{$moment(item.meta.updateAt).format('lll')}}</div>
+          <!-- 子评论 -->
+          <div v-for="(children, index) in item.children" :key="index" class="comment-children">
+            <div class="comment-user">
+              <div class="comment-user-head">
+                <img class="comment-user-head-img" :src="children.userinfo.headimg"/>
+              </div>
+              <div>{{children.userinfo.username}}</div>
+            </div>
+            <div class="comment-desc">
+              <div style="float: left;color: #B388FF;font-weight: normal" v-if="children.linkid != ''">
+                @{{children.linkname}}
+              </div>
+              <div style="text-indent: 1em">
+                {{children.commentdetail}}
+              </div>
+            </div>
+            <div class="comment-footer">
+              <div class="comment-footer-reply" @click="cildrenReplyClick(children,item)">回复</div>
+              <div class="comment-footer-delete">删除</div>
+              <div class="comment-time">评论时间：{{$moment(children.meta.updateAt).format('lll')}}</div>
+            </div>
           </div>
+
         </div>
       </div>
       <div style="text-align: center;opacity: 0.5;" v-show="!comments">暂无评论！</div>
@@ -62,7 +85,7 @@
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
       <v-textarea
-        label="回复"
+        :label="replyComment"
         solo
         class="reply-message"
         v-model="reply"
@@ -125,7 +148,8 @@ export default {
       userid: this.$store.state.userinfo._id,
       commentid: '',
       linkid: '',
-      linkname: ''
+      linkname: '',
+      replyComment: ''
     }
   },
   mounted () {
@@ -137,7 +161,7 @@ export default {
       const id = this.companyid
       const url = `${config.online}/comment/get/${id}`
       const res = await this.$http.get(url)
-      console.log(res.data)
+      console.log(res.data.data)
       this.$emit('replyshowClose', (res.data.data.length))
       if (res.data.code === 200) {
         this.news = res.data.data
@@ -181,12 +205,29 @@ export default {
     replyshowClose () {
       this.$emit('replyshowClose', (this.news.length))
     },
+    // 回复评论
     replyClick (val) {
       this.cReplyShow = true
       console.log(val)
       this.commentid = val._id
       this.linkid = val.userid
       this.linkname = val.userinfo.username
+      this.replyComment = `回复: ${val.userinfo.username}`
+      console.log(`%c该公司ID： ${this.companyid}`, 'color: red')
+      console.log(`该条评论ID： ${this.commentid}`)
+      console.log(`@人的ID: ${this.linkid}`)
+      console.log(`@人的username：${this.linkname}`)
+      console.log(`我的ID：${this.userid}`)
+      console.log(`我的username：${this.$store.state.userinfo.username}`)
+    },
+    cildrenReplyClick (val, item) {
+      this.cReplyShow = true
+      console.log(val)
+      console.log(item)
+      this.commentid = item._id
+      this.linkid = val.userid
+      this.linkname = val.userinfo.username
+      this.replyComment = `回复: ${val.userinfo.username}`
       console.log(`%c该公司ID： ${this.companyid}`, 'color: red')
       console.log(`该条评论ID： ${this.commentid}`)
       console.log(`@人的ID: ${this.linkid}`)
@@ -219,14 +260,15 @@ export default {
     border-bottom: 1px dashed #999;
   }
   .comment-list{
-    margin: 10px;
     border-bottom: 1px solid #999;
+    margin-bottom: 1px;
     .comment-user{
       display: flex;
       overflow: hidden;
       height: 40px;
       align-items: center;
       margin-bottom: 5px;
+      margin-top: 5px;
       .comment-user-head{
         width: 40px;
         height: 40px;
@@ -248,7 +290,7 @@ export default {
     .comment-footer{
       width: 100%;
       display: flex;
-      margin-bottom: 10px;
+      padding-bottom: 10px;
       justify-content: space-between;
       align-items: center;
       .comment-footer-reply{
@@ -266,12 +308,18 @@ export default {
       }
     }
   }
+  .comment-children{
+    opacity: 0.9;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 .reply{
   position: fixed;
   display: flex;
   width: 100%;
   height: 56px;
+  z-index: 3;
   background: #B39DDB;
   bottom: 0;
   align-items: center;

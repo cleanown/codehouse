@@ -251,7 +251,6 @@ export default {
     margin-top: 56px;
     padding-top: 15px;
     padding-right: 10px;
-    width: 100%;
     .adminmg-item{
       display: flex;
       margin-right: 20px;
@@ -279,7 +278,9 @@ export default {
   }
   .header{
     position: fixed;
-    width: 100%
+    width: 100%;
+    background: #fff;
+    z-index: 3;
   }
   .container{
     margin-top: 56px;
@@ -327,6 +328,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     background: rgb(245, 245, 245);
+    z-index: 2;
     width: 100%;
     height: 56px;
     color: #000;
