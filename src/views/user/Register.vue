@@ -66,9 +66,9 @@
         重置
       </v-btn>
     </div>
-    <div class="register">
+    <!-- <div class="register">
       <div>登录</div>|<div>无账号？</div>
-    </div>
+    </div> -->
     <v-snackbar
       v-model="snackbar"
       top
@@ -174,16 +174,16 @@ export default {
     margin-top: 30px;
   }
 }
-.register{
-  padding-top: 20px;
-  color: blue;
-  display: flex;
-  justify-content: center;
-  :nth-child(1){
-    margin-right: 10px;
-  }
-  :nth-child(2){
-    margin-left: 10px;
-  }
-}
+// .register{
+//   padding-top: 20px;
+//   color: blue;
+//   display: flex;
+//   justify-content: center;
+//   :nth-child(1){
+//     margin-right: 10px;
+//   }
+//   :nth-child(2){
+//     margin-left: 10px;
+//   }
+// }
 </style>
