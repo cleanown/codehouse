@@ -63,6 +63,11 @@ export default {
   mounted () {
     this.UsermgDataGet()
   },
+  watch: {
+    page (val) {
+      console.log(val)
+    }
+  },
   methods: {
     async UsermgDataGet () {
       const url = `${config.online}/user/getalluser`
@@ -72,7 +77,7 @@ export default {
         }
       }
       const res = await this.$http.get(url, data)
-      // console.log(res)
+      console.log(res)
       if (res.data.code === 200) {
         this.userlist = res.data.data.users
         this.wait = false
@@ -101,8 +106,7 @@ export default {
 }
 .footer{
   position: fixed;
-  bottom: 0px;
+  bottom: -3px;
   width: 100%;
-  padding: 10px
 }
 </style>
