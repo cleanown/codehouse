@@ -27,6 +27,7 @@
       >
       <v-list-item
         v-for="(item, index) in userlist"
+        v-show="item._id!==$store.state.userinfo._id"
         :key="index"
         class="list"
         style="border-bottom: 1px solid #eee"
