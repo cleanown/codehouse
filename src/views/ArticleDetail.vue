@@ -163,6 +163,7 @@ export default {
         }
       }
       const res = await this.$http.get(url, obj)
+      console.log(res)
       if (res.data.code === 200) {
         this.company = res.data.data
         this.updateTime = res.data.data.meta.updateAt
