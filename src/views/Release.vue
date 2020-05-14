@@ -231,7 +231,7 @@ export default {
         console.log(res)
         if (res.data.code === 200) {
           this.snackbar = true
-          this.text = res.data.msg
+          this.text = `${res.data.msg}，等待审核！`
           setTimeout(() => {
             console.log('1500')
             this.$router.push('/')
