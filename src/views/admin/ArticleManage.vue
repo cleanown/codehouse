@@ -23,11 +23,11 @@
       </div>
       <div class="drawer-switch">
         <v-switch v-model="isverifyAdopt" dense :disabled="disabled" hide-details label="审核已通过"></v-switch>
-        <v-switch v-model="isdeleteAdopt" dense :disabled="disabled" hide-details label="已删除"></v-switch>
+        <v-switch v-model="isdeleteAdopt" dense :disabled="disabled" hide-details label="已删除文章"></v-switch>
       </div>
       <div class="drawer-switch">
         <v-switch v-model="isverifyPass" dense :disabled="disabled" hide-details label="审核未通过"></v-switch>
-        <v-switch v-model="isdeletePass" dense :disabled="disabled" hide-details label="未删除"></v-switch>
+        <v-switch v-model="isdeletePass" dense :disabled="disabled" hide-details label="未删除文章"></v-switch>
       </div>
       <div class="drawer-time">
         <div>发布时间 :</div>
