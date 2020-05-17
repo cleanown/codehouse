@@ -225,7 +225,8 @@ export default {
           companyname: this.companyname,
           companydetail: this.companydetail,
           province: this.province.label,
-          city: this.city.label
+          city: this.city.label,
+          address: this.address
         }
         const res = await this.$http.post(url, data)
         console.log(res)
