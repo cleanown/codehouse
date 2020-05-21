@@ -63,6 +63,7 @@
           <v-file-input
             class="inp-file"
             full-width
+            counter
             outlined
             accept="image/png, image/jpeg, image/bmp"
             v-model="file"
@@ -158,7 +159,7 @@ export default {
   },
   watch: {
     file (val) {
-      console.log(val)
+      // console.log(val)
     },
     overlay (val) {
       console.log(val)
@@ -242,12 +243,12 @@ export default {
     },
     async imgPost (file) {
       // 照片审核
-      console.log('%c上传照片：', 'color:yellow')
-      console.log(file)
-      if (this.detailimg.length > 6) {
+      console.log('%c上传照片：', 'color:blue')
+      console.log(this.detailimg)
+      if (this.detailimg.length >= 5) {
         this.snackbar = true
         this.text = '上传图片不得超过5张'
-      } else if (this.file.size > 2000000) {
+      } else if (this.file.size >= 2000000) {
         this.snackbar = true
         this.text = '图片质量不得大于2M'
       } else {
@@ -256,18 +257,20 @@ export default {
         const reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onload = (e) => {
+          console.log('%c图片预览：', 'color:blue')
           console.log(e)
           imgUrl = e.target.result
           this.detailimg.unshift(imgUrl)
         }
+        // 上传图片
+        const formData = new FormData()
+        // formData.append('file', (this.file.name, this.file.lastModified, this.file.lastModifiedDate))
+        formData.append('file', this.file)
+        const url = `${config.online}/upload/img`
+        const res = await this.$http.post(url, formData)
+        console.log('%c上传状态：', 'color:blue')
+        console.log(res)
       }
-      // 上传图片
-      const formData = new FormData()
-      // formData.append('file', (this.file.name, this.file.lastModified, this.file.lastModifiedDate))
-      formData.append('file', this.file)
-      const url = `${config.online}/upload/img`
-      const res = await this.$http.post(url, formData)
-      console.log(res)
     }
   }
 }
@@ -311,7 +314,7 @@ export default {
       }
       .inp-file{
         width: 100%;
-        opacity: 0;
+        // opacity: 0;
         top: 0;
         bottom: 0;
         top: 32%;
