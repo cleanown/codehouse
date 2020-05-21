@@ -62,6 +62,7 @@
         <div class="inp">
           <v-file-input
             class="inp-file"
+            clearable="false"
             full-width
             counter
             outlined
@@ -245,12 +246,13 @@ export default {
       // 照片审核
       console.log('%c上传照片：', 'color:blue')
       console.log(this.detailimg)
-      if (this.detailimg.length >= 5) {
+      console.log(file)
+      if (file.size >= 2000000) {
+        this.snackbar = true
+        this.text = '图片质量不得大于2M '
+      } else if (this.detailimg.length >= 5) {
         this.snackbar = true
         this.text = '上传图片不得超过5张'
-      } else if (this.file.size >= 2000000) {
-        this.snackbar = true
-        this.text = '图片质量不得大于2M'
       } else {
       // 预览图片
         let imgUrl
