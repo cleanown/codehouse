@@ -242,6 +242,8 @@ export default {
     },
     async imgPost (file) {
       // 照片审核
+      console.log('%c上传照片：', 'color:yellow')
+      console.log(file)
       if (this.detailimg.length > 6) {
         this.snackbar = true
         this.text = '上传图片不得超过5张'

@@ -22,7 +22,6 @@ export default {
     async getUserInfo () {
       const url = `${config.online}/user/userinfo`
       const res = await this.$http.get(url)
-      console.log(res)
       if (res.data.code === 200) {
         this.$store.commit('userinfo', (res.data.data))
       } else {
