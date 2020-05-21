@@ -29,7 +29,7 @@
         <p class="container-desc">{{company.companydetail}}</p>
         <div class="box">
           <div class="box-item" v-for="(item, index) of company.imgs" :key="index" @click="carousel = true">
-            <img class="box-item-img" :src="item.imgUrl" alt="图片加载失败"/>
+            <img class="box-item-img" :src="item" alt="图片加载失败"/>
           </div>
         </div>
         <div class="container-time">

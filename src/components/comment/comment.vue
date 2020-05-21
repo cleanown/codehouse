@@ -33,7 +33,7 @@
               <div>{{children.userinfo.username}}</div>
             </div>
             <div class="comment-desc">
-              <div style="float: left;color: #B388FF;font-weight: normal" v-if="children.linkid != ''">
+              <div style="float: left;color: #B388FF;font-weight: normal" v-if="children.linkid !== item.userid">
                 @{{children.linkname}}
               </div>
               <div style="text-indent: 1em">

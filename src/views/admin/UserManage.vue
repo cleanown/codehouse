@@ -66,6 +66,7 @@ export default {
   watch: {
     page (val) {
       console.log(val)
+      this.UsermgDataGet()
     }
   },
   methods: {
@@ -73,7 +74,8 @@ export default {
       const url = `${config.online}/user/getalluser`
       const data = {
         params: {
-          hotkey: this.searchValue
+          hotkey: this.searchValue,
+          page: this.page
         }
       }
       const res = await this.$http.get(url, data)
@@ -81,7 +83,7 @@ export default {
       if (res.data.code === 200) {
         this.userlist = res.data.data.users
         this.wait = false
-        this.page = res.data.data.page
+        this.page = Number(res.data.data.page)
         this.pagetotal = res.data.data.pageTotle
       } else {
         this.snackbar = true
