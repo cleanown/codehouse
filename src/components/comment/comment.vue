@@ -197,6 +197,7 @@ export default {
         this.commentid = ''
         this.linkid = ''
         this.linkname = ''
+        this.cReplyShow = false
       } else {
         this.snackbar = true
         this.text = res.data.msg

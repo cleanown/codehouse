@@ -62,7 +62,6 @@
         <div class="inp">
           <v-file-input
             class="inp-file"
-            clearable="false"
             full-width
             counter
             outlined
@@ -316,7 +315,7 @@ export default {
       }
       .inp-file{
         width: 100%;
-        // opacity: 0;
+        opacity: 0;
         top: 0;
         bottom: 0;
         top: 32%;
