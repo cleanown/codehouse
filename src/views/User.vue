@@ -83,6 +83,7 @@ export default {
     const res = await this.$http.get(url)
     if (res.data.code === 200) {
       this.$store.commit('userinfo', (res.data.data))
+      console.log('%c个人信息：', 'color: orange')
       console.log(res.data)
     } else {
       this.snackbar = true
