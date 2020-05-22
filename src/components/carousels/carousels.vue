@@ -32,16 +32,6 @@ export default {
       model: this.index
     }
   },
-  watch: {
-    model (val) {
-      console.log('%ccarousel下标：', 'color: blue')
-      console.log(val)
-    }
-  },
-  mounted () {
-    console.log('%ccarousel接参：', 'color: blue')
-    console.log(this.slides)
-  },
   methods: {
     carouselClose () {
       this.$emit('carouselClose')

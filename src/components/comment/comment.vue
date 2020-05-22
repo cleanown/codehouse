@@ -161,7 +161,7 @@ export default {
       const id = this.companyid
       const url = `${config.online}/comment/get/${id}`
       const res = await this.$http.get(url)
-      console.log('%c评论列表', 'color: blue')
+      console.log('%c评论列表', 'color: orange')
       console.log(res.data.data)
       this.$emit('replyshowClose', (res.data.data.length))
       if (res.data.code === 200) {

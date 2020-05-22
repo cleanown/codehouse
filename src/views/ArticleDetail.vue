@@ -107,7 +107,7 @@
     <!-- 评论区 -->
     <comment :replyshow="replyshow" @replyshowClose="replyshowClose" />
     <!-- 轮播图 -->
-    <div class="carousels" v-if="slidesData" v-show="carousels" @click="carousels = false">
+    <div class="carousels" v-if="carousels" @click="carousels = false">
       <carousels ref="img" :company="company" :index.sync="imgIndex" @carouselClose="carousels = false"/>
     </div>
   </div>
@@ -124,8 +124,7 @@ export default {
     return {
       bgUrl: '',
       company: {},
-      slidesData: false,
-      imgIndex: 1,
+      imgIndex: 0,
       dialog: false,
       carousels: false,
       isverify: '',
@@ -174,6 +173,7 @@ export default {
         }
       }
       const res = await this.$http.get(url, obj)
+      console.log('%c页面相关信息：', 'color: orange')
       console.log(res)
       if (res.data.code === 200) {
         this.company = res.data.data
@@ -181,8 +181,7 @@ export default {
         this.updateTime = this.$moment(this.updateTime).format('lll')
         this.isverify = res.data.data.isverify
         this.authname = res.data.data.userinfo.username
-        this.slidesData = true
-        console.log('%csildes', 'color: blue')
+        console.log('%csildes', 'color: orange')
         console.log(this.company)
       }
     },
@@ -230,8 +229,6 @@ export default {
       }
     },
     carouselsClick (e) {
-      console.log('%c点击的图片下标：', 'color: blue')
-      console.log(e)
       this.imgIndex = e
       this.carousels = true
     },
