@@ -28,6 +28,7 @@
         <div class="container-bg" :style="{backgroundImage: 'url(' + bgUrl + ')'}">
           <p class="container-head">{{company.companyname}}</p>
           <p class="container-desc">{{company.companydetail}}</p>
+          <p class="container-address">地址：{{company.province}}/{{company.city}}/{{company.address}}</p>
         </div>
         <div class="box">
           <div class="box-item" v-for="(item, index) of company.imgs" :key="index" @click="carouselsClick(index)">
@@ -306,14 +307,17 @@ export default {
       .container-bg{
         background-size: auto;
         background-position: center;
-      }
-      .container-head{
-        font-size: 20px;
-        font-weight: bolder;
-      }
-      .container-desc{
-        text-indent: 2em;
-        margin: 0 5px;
+        .container-head{
+          font-size: 20px;
+          font-weight: bolder;
+        }
+        .container-desc{
+          text-indent: 2em;
+          margin: 0 5px;
+        }
+        .container-address{
+          margin: 10px 5px;
+        }
       }
       .box{
         display: flex;

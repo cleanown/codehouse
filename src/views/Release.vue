@@ -220,6 +220,8 @@ export default {
       this.overlay = false
       this.detailimg.splice(index, 1)
       console.log(index)
+      this.imgdelete = this.imgs.splice(index, 1)
+      console.log(this.imgs)
     },
     async handlePostClick () {
       if (!this.companyname) {
@@ -281,7 +283,7 @@ export default {
           this.wait = false
           this.snackbar = true
           this.text = '上传成功'
-          this.imgs = this.imgs.concat(this.$store.state.prefix + res.data.data.path)
+          this.imgs.unshift(this.$store.state.prefix + res.data.data.path)
           console.log(this.imgs)
           // 预览图片
           let imgUrl

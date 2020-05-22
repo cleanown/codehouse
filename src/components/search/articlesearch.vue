@@ -87,6 +87,7 @@ export default {
         if (res.data.code === 200) {
           this.items = res.data.data
           this.wait = false
+          console.log('%c文章列表：', 'color: orange')
           console.log(res.data)
         }
       })
