@@ -23,12 +23,14 @@
       </v-btn>
     </v-toolbar>
     <!-- 内容 -->
-    <div class="container" :style="{backgroundImage: 'url(' + bgUrl + ')'}">
+    <div class="container">
       <div class="container-detail">
-        <p class="container-head">{{company.companyname}}</p>
-        <p class="container-desc">{{company.companydetail}}</p>
+        <div class="container-bg" :style="{backgroundImage: 'url(' + bgUrl + ')'}">
+          <p class="container-head">{{company.companyname}}</p>
+          <p class="container-desc">{{company.companydetail}}</p>
+        </div>
         <div class="box">
-          <div class="box-item" v-for="(item, index) of company.imgs" :key="index" @click="carousel = true">
+          <div class="box-item" v-for="(item, index) of company.imgs" :key="index" @click="carouselsClick(index)">
             <img class="box-item-img" :src="item" alt="图片加载失败"/>
           </div>
         </div>
@@ -104,12 +106,17 @@
     </v-dialog>
     <!-- 评论区 -->
     <comment :replyshow="replyshow" @replyshowClose="replyshowClose" />
+    <!-- 轮播图 -->
+    <div class="carousels" v-if="slidesData" v-show="carousels" @click="carousels = false">
+      <carousels ref="img" :company="company" :index.sync="imgIndex" @carouselClose="carousels = false"/>
+    </div>
   </div>
 </template>
 
 <script>
 import config from '../request/config'
 import Comment from '../components/comment/comment'
+import carousels from '../components/carousels/carousels'
 import { mapState } from 'vuex'
 export default {
   name: 'detail',
@@ -117,7 +124,10 @@ export default {
     return {
       bgUrl: '',
       company: {},
+      slidesData: false,
+      imgIndex: 1,
       dialog: false,
+      carousels: false,
       isverify: '',
       timeout: 1000,
       snackbar: false,
@@ -133,7 +143,8 @@ export default {
     }
   },
   components: {
-    Comment
+    Comment,
+    carousels
   },
   computed: {
     ...mapState(['userinfo'])
@@ -170,7 +181,9 @@ export default {
         this.updateTime = this.$moment(this.updateTime).format('lll')
         this.isverify = res.data.data.isverify
         this.authname = res.data.data.userinfo.username
-        // console.log(this.company)
+        this.slidesData = true
+        console.log('%csildes', 'color: blue')
+        console.log(this.company)
       }
     },
     deleteJudgeClick () {
@@ -215,6 +228,12 @@ export default {
         this.snackbar = true
         this.text = res.data.msg
       }
+    },
+    carouselsClick (e) {
+      console.log('%c点击的图片下标：', 'color: blue')
+      console.log(e)
+      this.imgIndex = e
+      this.carousels = true
     },
     handleCollectClick () {
       this.styleCollect.color = this.styleCollect.color === '#757575' ? '#651FFF' : '#757575'
@@ -286,9 +305,11 @@ export default {
   .container{
     margin-top: 56px;
     padding: 20px;
-    background-size: auto;
-    background-position: center;
     .container-detail{
+      .container-bg{
+        background-size: auto;
+        background-position: center;
+      }
       .container-head{
         font-size: 20px;
         font-weight: bolder;
@@ -339,6 +360,17 @@ export default {
       margin-right: 15px;
       align-items: center;
     }
+  }
+  .carousels{
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    background: #000;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

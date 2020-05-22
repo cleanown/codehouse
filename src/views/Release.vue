@@ -131,6 +131,18 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-snackbar>
+    <!-- 进度环 -->
+    <div class="wait" v-show="wait">
+      <v-progress-circular
+        class="wait-progress"
+        :size="100"
+        :width="3"
+        indeterminate
+        color="#666"
+      >
+        上传中...
+      </v-progress-circular>
+    </div>
   </div>
 </template>
 
@@ -145,6 +157,8 @@ export default {
       companyname: '',
       companydetail: '',
       file: [],
+      wait: false,
+      imgs: [],
       options: provinceAndCityData,
       province: '',
       city: '',
@@ -226,6 +240,7 @@ export default {
           companyname: this.companyname,
           companydetail: this.companydetail,
           province: this.province.label,
+          imgs: this.imgs,
           city: this.city.label,
           address: this.address
         }
@@ -246,31 +261,42 @@ export default {
       console.log('%c上传照片：', 'color:blue')
       console.log(this.detailimg)
       console.log(file)
-      if (file.size >= 2000000) {
+      this.file = file
+      if (this.file.size >= 2000000) {
         this.snackbar = true
         this.text = '图片质量不得大于2M '
       } else if (this.detailimg.length >= 5) {
         this.snackbar = true
         this.text = '上传图片不得超过5张'
       } else {
-      // 预览图片
-        let imgUrl
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = (e) => {
-          console.log('%c图片预览：', 'color:blue')
-          console.log(e)
-          imgUrl = e.target.result
-          this.detailimg.unshift(imgUrl)
-        }
         // 上传图片
+        this.wait = true
         const formData = new FormData()
-        // formData.append('file', (this.file.name, this.file.lastModified, this.file.lastModifiedDate))
         formData.append('file', this.file)
         const url = `${config.online}/upload/img`
         const res = await this.$http.post(url, formData)
         console.log('%c上传状态：', 'color:blue')
-        console.log(res)
+        if (res.data.code === 200) {
+          console.log(res)
+          this.wait = false
+          this.snackbar = true
+          this.text = '上传成功'
+          this.imgs = this.imgs.concat(this.$store.state.prefix + res.data.data.path)
+          console.log(this.imgs)
+          // 预览图片
+          let imgUrl
+          const reader = new FileReader()
+          reader.readAsDataURL(file)
+          reader.onload = (e) => {
+            console.log('%c图片预览：', 'color:blue')
+            console.log(e)
+            imgUrl = e.target.result
+            this.detailimg.unshift(imgUrl)
+          }
+        } else {
+          this.snackbar = true
+          this.text = res.data.msg
+        }
       }
     }
   }
@@ -278,6 +304,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-progress-circular {
+  margin: 1rem;
+}
+.wait{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .tips{
   margin-top: 56px;
 }

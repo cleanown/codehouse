@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     fabulous: 2,
     userinfo: {},
-    articlelist: {}
+    articlelist: {},
+    prefix: 'https://api.cleanown.cn/upload/images/'
   },
   mutations: {
     increment: state => state.fabulous++,
